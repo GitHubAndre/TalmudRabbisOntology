@@ -1,0 +1,1885 @@
+@prefix :      <http://146.48.93.235:3030/rabbiOntology#> .
+@prefix dct:   <http://purl.org/dc/terms/> .
+@prefix owl:   <http://www.w3.org/2002/07/owl#> .
+@prefix rdf:   <http://www.w3.org/1999/02/22-rdf-syntax-ns#> .
+@prefix rabbiOntology: <http://146.48.93.235:3030/rabbiOntology#> .
+@prefix xsd:   <http://www.w3.org/2001/XMLSchema#> .
+@prefix skos:  <http://www.w3.org/2004/02/skos/core#> .
+@prefix rdfs:  <http://www.w3.org/2000/01/rdf-schema#> .
+@prefix time:  <http://www.w3.org/2006/time#> .
+@prefix foaf:  <http://xmlns.com/foaf/0.1/> .
+
+<http://146.48.93.235:3030/rabbiOntology>
+        a                owl:Ontology ;
+        dct:contributor  <http://www.ilc.cnr.it/en/content/emiliano-giovannetti> , <http://www.ilc.cnr.it/en/content/andrea-bellandi> , <http://www.ilc.cnr.it/en/content/simone-marchi> ;
+        dct:description  "The ontology of the Rabbis of the Babylonian Talmud, being developed within the context of the Progetto Traduzione Talmud Babilonese" ;
+        dct:issued       "2018-08-09"^^xsd:date ;
+        dct:language     <http://lexvo.org/id/iso639-3/eng> ;
+        dct:rights       "CC-BY" ;
+        dct:title        "The Talmudic Rabbis Ontology - RDF Version"@en .
+
+rabbiOntology:hasTaughtInPlace
+        a            owl:ObjectProperty ;
+        rdfs:domain  rabbiOntology:Master ;
+        rdfs:range   rabbiOntology:Place .
+
+rabbiOntology:Master  a   owl:Class ;
+        rdfs:subClassOf   [ a                   owl:Restriction ;
+                            owl:onProperty      rabbiOntology:hasHebrewName ;
+                            owl:someValuesFrom  xsd:string
+                          ] ;
+        rdfs:subClassOf   [ a                   owl:Restriction ;
+                            owl:onProperty      rabbiOntology:hasItalianAlternativeName ;
+                            owl:someValuesFrom  xsd:string
+                          ] ;
+        rdfs:subClassOf   [ a                   owl:Restriction ;
+                            owl:onProperty      rabbiOntology:hasItalianName ;
+                            owl:someValuesFrom  xsd:string
+                          ] ;
+        owl:disjointWith  rabbiOntology:Place , rabbiOntology:Title .
+
+rabbiOntology:Place  a    owl:Class ;
+        owl:disjointWith  rabbiOntology:Title .
+
+rabbiOntology:hasTitle
+        a            owl:ObjectProperty ;
+        rdfs:domain  rabbiOntology:Master ;
+        rdfs:range   rabbiOntology:Title .
+
+rabbiOntology:Title  a   owl:Class ;
+        rdfs:subClassOf  [ a          owl:Class ;
+                           owl:oneOf  ( rabbiOntology:rabban rabbiOntology:rabbi rabbiOntology:rav )
+                         ] .
+
+rabbiOntology:isFatherOf
+        a              owl:ObjectProperty ;
+        rdfs:domain    rabbiOntology:Master ;
+        rdfs:range     rabbiOntology:Master ;
+        owl:inverseOf  rabbiOntology:isSonOf .
+
+rabbiOntology:isSonOf
+        a            owl:ObjectProperty ;
+        rdfs:domain  rabbiOntology:Master ;
+        rdfs:range   rabbiOntology:Master .
+
+rabbiOntology:isGrandpaOf
+        a              owl:ObjectProperty ;
+        rdfs:domain    rabbiOntology:Master ;
+        rdfs:range     rabbiOntology:Master ;
+        owl:inverseOf  rabbiOntology:isGrandsonOf .
+
+rabbiOntology:isGrandsonOf
+        a            owl:ObjectProperty ;
+        rdfs:domain  rabbiOntology:Master ;
+        rdfs:range   rabbiOntology:Master .
+
+rabbiOntology:isNephewOf
+        a              owl:ObjectProperty ;
+        rdfs:domain    rabbiOntology:Master ;
+        rdfs:range     rabbiOntology:Master ;
+        owl:inverseOf  rabbiOntology:isUncleOf .
+
+rabbiOntology:isUncleOf
+        a            owl:ObjectProperty ;
+        rdfs:domain  rabbiOntology:Master ;
+        rdfs:range   rabbiOntology:Master .
+
+rabbiOntology:appearsInPageRH
+        a            owl:DatatypeProperty ;
+        rdfs:domain  rabbiOntology:Master ;
+        rdfs:range   xsd:string .
+
+rabbiOntology:belongsToGeneration
+        a            owl:DatatypeProperty ;
+        rdfs:domain  rabbiOntology:Master ;
+        rdfs:range   xsd:int .
+
+rabbiOntology:hasHebrewName
+        a            owl:DatatypeProperty ;
+        rdfs:domain  rabbiOntology:Master ;
+        rdfs:range   xsd:string .
+
+rabbiOntology:hasItalianAlternativeName
+        a            owl:DatatypeProperty ;
+        rdfs:domain  rabbiOntology:Master ;
+        rdfs:range   xsd:string .
+
+rabbiOntology:hasItalianName
+        a            owl:DatatypeProperty ;
+        rdfs:domain  rabbiOntology:Master ;
+        rdfs:range   xsd:string .
+
+rabbiOntology:hasShortBio
+        a            owl:DatatypeProperty ;
+        rdfs:domain  rabbiOntology:Master ;
+        rdfs:range   xsd:string .
+
+rabbiOntology:Amora  a    owl:Class ;
+        rdfs:subClassOf   rabbiOntology:Master ;
+        owl:disjointWith  rabbiOntology:MemberOfZug , rabbiOntology:Tanna .
+
+rabbiOntology:MemberOfZug
+        a                 owl:Class ;
+        rdfs:subClassOf   rabbiOntology:Master ;
+        owl:disjointWith  rabbiOntology:Tanna .
+
+rabbiOntology:Tanna  a   owl:Class ;
+        rdfs:subClassOf  rabbiOntology:Master .
+
+rabbiOntology:BabylonianAmora
+        a                    owl:Class ;
+        owl:equivalentClass  [ a                   owl:Class ;
+                               owl:intersectionOf  ( rabbiOntology:Amora
+                                                     [ a               owl:Restriction ;
+                                                       owl:hasValue    rabbiOntology:babylon ;
+                                                       owl:onProperty  rabbiOntology:hasTaughtInPlace
+                                                     ]
+                                                   )
+                             ] .
+
+rabbiOntology:babylon
+        a       rabbiOntology:Place , owl:NamedIndividual .
+
+rabbiOntology:EightGenerationAmora
+        a                    owl:Class ;
+        owl:equivalentClass  [ a                   owl:Class ;
+                               owl:intersectionOf  ( rabbiOntology:Amora
+                                                     [ a               owl:Restriction ;
+                                                       owl:hasValue    8 ;
+                                                       owl:onProperty  rabbiOntology:belongsToGeneration
+                                                     ]
+                                                   )
+                             ] .
+
+rabbiOntology:EretzIsraelAmora
+        a                    owl:Class ;
+        owl:equivalentClass  [ a                   owl:Class ;
+                               owl:intersectionOf  ( rabbiOntology:Amora
+                                                     [ a               owl:Restriction ;
+                                                       owl:hasValue    rabbiOntology:eretzIsrael ;
+                                                       owl:onProperty  rabbiOntology:hasTaughtInPlace
+                                                     ]
+                                                   )
+                             ] .
+
+rabbiOntology:eretzIsrael
+        a       rabbiOntology:Place , owl:NamedIndividual .
+
+rabbiOntology:FifthGenerationAmora
+        a                    owl:Class ;
+        owl:equivalentClass  [ a                   owl:Class ;
+                               owl:intersectionOf  ( rabbiOntology:Amora
+                                                     [ a               owl:Restriction ;
+                                                       owl:hasValue    5 ;
+                                                       owl:onProperty  rabbiOntology:belongsToGeneration
+                                                     ]
+                                                   )
+                             ] .
+
+rabbiOntology:FifthGenerationTanna
+        a                    owl:Class ;
+        owl:equivalentClass  [ a                   owl:Class ;
+                               owl:intersectionOf  ( rabbiOntology:Tanna
+                                                     [ a               owl:Restriction ;
+                                                       owl:hasValue    5 ;
+                                                       owl:onProperty  rabbiOntology:belongsToGeneration
+                                                     ]
+                                                   )
+                             ] .
+
+rabbiOntology:FirstGenerationAmora
+        a                    owl:Class ;
+        owl:equivalentClass  [ a                   owl:Class ;
+                               owl:intersectionOf  ( rabbiOntology:Amora
+                                                     [ a               owl:Restriction ;
+                                                       owl:hasValue    1 ;
+                                                       owl:onProperty  rabbiOntology:belongsToGeneration
+                                                     ]
+                                                   )
+                             ] .
+
+rabbiOntology:FirstGenerationTanna
+        a                    owl:Class ;
+        owl:equivalentClass  [ a                   owl:Class ;
+                               owl:intersectionOf  ( rabbiOntology:Tanna
+                                                     [ a               owl:Restriction ;
+                                                       owl:hasValue    1 ;
+                                                       owl:onProperty  rabbiOntology:belongsToGeneration
+                                                     ]
+                                                   )
+                             ] .
+
+rabbiOntology:FourthGenerationAmora
+        a                    owl:Class ;
+        owl:equivalentClass  [ a                   owl:Class ;
+                               owl:intersectionOf  ( rabbiOntology:Amora
+                                                     [ a               owl:Restriction ;
+                                                       owl:hasValue    4 ;
+                                                       owl:onProperty  rabbiOntology:belongsToGeneration
+                                                     ]
+                                                   )
+                             ] .
+
+rabbiOntology:FourthGenerationTanna
+        a                    owl:Class ;
+        owl:equivalentClass  [ a                   owl:Class ;
+                               owl:intersectionOf  ( rabbiOntology:Tanna
+                                                     [ a               owl:Restriction ;
+                                                       owl:hasValue    4 ;
+                                                       owl:onProperty  rabbiOntology:belongsToGeneration
+                                                     ]
+                                                   )
+                             ] .
+
+rabbiOntology:SecondGenerationAmora
+        a                    owl:Class ;
+        owl:equivalentClass  [ a                   owl:Class ;
+                               owl:intersectionOf  ( rabbiOntology:Amora
+                                                     [ a               owl:Restriction ;
+                                                       owl:hasValue    2 ;
+                                                       owl:onProperty  rabbiOntology:belongsToGeneration
+                                                     ]
+                                                   )
+                             ] .
+
+rabbiOntology:SecondGenerationTanna
+        a                    owl:Class ;
+        owl:equivalentClass  [ a                   owl:Class ;
+                               owl:intersectionOf  ( rabbiOntology:Tanna
+                                                     [ a               owl:Restriction ;
+                                                       owl:hasValue    2 ;
+                                                       owl:onProperty  rabbiOntology:belongsToGeneration
+                                                     ]
+                                                   )
+                             ] .
+
+rabbiOntology:SeventhGenerationAmora
+        a                    owl:Class ;
+        owl:equivalentClass  [ a                   owl:Class ;
+                               owl:intersectionOf  ( rabbiOntology:Amora
+                                                     [ a               owl:Restriction ;
+                                                       owl:hasValue    7 ;
+                                                       owl:onProperty  rabbiOntology:belongsToGeneration
+                                                     ]
+                                                   )
+                             ] .
+
+rabbiOntology:SixthGenerationAmora
+        a                    owl:Class ;
+        owl:equivalentClass  [ a                   owl:Class ;
+                               owl:intersectionOf  ( rabbiOntology:Amora
+                                                     [ a               owl:Restriction ;
+                                                       owl:hasValue    6 ;
+                                                       owl:onProperty  rabbiOntology:belongsToGeneration
+                                                     ]
+                                                   )
+                             ] .
+
+rabbiOntology:ThirdGenerationAmora
+        a                    owl:Class ;
+        owl:equivalentClass  [ a                   owl:Class ;
+                               owl:intersectionOf  ( rabbiOntology:Amora
+                                                     [ a               owl:Restriction ;
+                                                       owl:hasValue    3 ;
+                                                       owl:onProperty  rabbiOntology:belongsToGeneration
+                                                     ]
+                                                   )
+                             ] .
+
+rabbiOntology:ThirdGenerationTanna
+        a                    owl:Class ;
+        owl:equivalentClass  [ a                   owl:Class ;
+                               owl:intersectionOf  ( rabbiOntology:Tanna
+                                                     [ a               owl:Restriction ;
+                                                       owl:hasValue    3 ;
+                                                       owl:onProperty  rabbiOntology:belongsToGeneration
+                                                     ]
+                                                   )
+                             ] .
+
+rabbiOntology:rabban  a  rabbiOntology:Title , owl:NamedIndividual .
+
+rabbiOntology:rabbi  a  rabbiOntology:Title , owl:NamedIndividual .
+
+rabbiOntology:rav  a  rabbiOntology:Title , owl:NamedIndividual .
+
+rabbiOntology:Abbayè_Amora_4
+        a                               rabbiOntology:Amora , owl:NamedIndividual ;
+        rabbiOntology:appearsInPageRH   "13b" , "15a" , "16a" , "17b" , "18a" , "18b" , "20a" , "20b" , "21b" , "23a" , "23b" , "24a" , "24b" , "26a" , "27a" , "28a" , "28b" , "31a" , "33a" , "33b" , "6b" ;
+        rabbiOntology:belongsToGeneration
+                4 ;
+        rabbiOntology:hasHebrewName     "אַבַּיֵי" ;
+        rabbiOntology:hasItalianName    "Abbayè" ;
+        rabbiOntology:hasShortBio       "amorà babilonese della IV generazione." ;
+        rabbiOntology:hasTaughtInPlace  rabbiOntology:Babilonia .
+
+rabbiOntology:Babilonia
+        a       owl:NamedIndividual .
+
+rabbiOntology:Abbà_Amora_3
+        a                               rabbiOntology:Amora , owl:NamedIndividual ;
+        rabbiOntology:appearsInPageRH   "35a" ;
+        rabbiOntology:belongsToGeneration
+                3 , 4 ;
+        rabbiOntology:hasHebrewName     "אַבָּא" ;
+        rabbiOntology:hasItalianName    "Abbà" ;
+        rabbiOntology:hasShortBio       "(rabbì), ci sono vari amoraìm con questo nome, sia di Èretz Israèl che della Babilonia, della III e VI generazione." ;
+        rabbiOntology:hasTaughtInPlace  rabbiOntology:Èretz_Israèl ;
+        rabbiOntology:hasTitle          rabbiOntology:Rabbì .
+
+rabbiOntology:Èretz_Israèl
+        a       owl:NamedIndividual .
+
+rabbiOntology:Rabbì  a  owl:NamedIndividual .
+
+rabbiOntology:Abbà_Shaùl_Tanna_3
+        a                              rabbiOntology:Tanna , owl:NamedIndividual ;
+        rabbiOntology:appearsInPageRH  "33a" ;
+        rabbiOntology:belongsToGeneration
+                3 , 4 ;
+        rabbiOntology:hasHebrewName    "אַבָּא שָׁאוּל" ;
+        rabbiOntology:hasItalianName   "Abbà Shaùl" ;
+        rabbiOntology:hasShortBio      "tannà della III e IV generazione." .
+
+rabbiOntology:Abbà_figlio_di_Binyamìn_bar_Chiyà_Amora_4
+        a                              rabbiOntology:Amora , owl:NamedIndividual ;
+        rabbiOntology:appearsInPageRH  "35a" ;
+        rabbiOntology:belongsToGeneration
+                4 ;
+        rabbiOntology:hasHebrewName    "אַבָּא דְּרַב בִּנְיָמִין בַּר חִיָּיא" ;
+        rabbiOntology:hasItalianName   "Abbà figlio di Binyamìn bar Chiyà" ;
+        rabbiOntology:hasShortBio      "amorà della IV generazione." .
+
+rabbiOntology:Abbà_haKohèn_Amora_3
+        a                               rabbiOntology:Amora , owl:NamedIndividual ;
+        rabbiOntology:appearsInPageRH   "15b" ;
+        rabbiOntology:belongsToGeneration
+                3 ;
+        rabbiOntology:hasHebrewName     "אַבָּא הַכֹּהֵן" ;
+        rabbiOntology:hasItalianAlternativeName
+                "Abbà il Sacerdote" ;
+        rabbiOntology:hasItalianName    "Abbà haKohèn" ;
+        rabbiOntology:hasShortBio       "(Abbà il Sacerdote, rabbì), amorà di Èretz Israèl della III generazione." ;
+        rabbiOntology:hasTaughtInPlace  rabbiOntology:Èretz_Israèl ;
+        rabbiOntology:hasTitle          rabbiOntology:Rabbì .
+
+rabbiOntology:Abbà_padre_di_rabbì_Simlài_Tanna_5
+        a                              rabbiOntology:Tanna , owl:NamedIndividual ;
+        rabbiOntology:appearsInPageRH  "20b" ;
+        rabbiOntology:belongsToGeneration
+                5 ;
+        rabbiOntology:hasHebrewName    "אַבָּא אֲבוּהּ דְּרַבִּי שִׂמְלַאי" ;
+        rabbiOntology:hasItalianName   "Abbà padre di rabbì Simlài" ;
+        rabbiOntology:hasShortBio      "tannà della V generazione." .
+
+rabbiOntology:Abbàhu_Amora_3
+        a                               rabbiOntology:Amora , owl:NamedIndividual ;
+        rabbiOntology:appearsInPageRH   "16a" , "21b" , "14a" , "32b" , "34a" , "34b" , "3a" , "3b" ;
+        rabbiOntology:belongsToGeneration
+                3 ;
+        rabbiOntology:hasHebrewName     "אַבָּהוּ" ;
+        rabbiOntology:hasItalianName    "Abbàhu" ;
+        rabbiOntology:hasShortBio       "(rabbì), amorà di Èretz Israèl della III generazione." ;
+        rabbiOntology:hasTaughtInPlace  rabbiOntology:Èretz_Israèl ;
+        rabbiOntology:hasTitle          rabbiOntology:Rabbì .
+
+rabbiOntology:Achà_bar_Awirà_Amora_3
+        a                               rabbiOntology:Amora , owl:NamedIndividual ;
+        rabbiOntology:appearsInPageRH   "35a" ;
+        rabbiOntology:belongsToGeneration
+                3 ;
+        rabbiOntology:hasHebrewName     "אַחָא בַּר עֲוִירָא" ;
+        rabbiOntology:hasItalianName    "Achà bar Awirà" ;
+        rabbiOntology:hasShortBio       "(rav), amorà di Èretz Israèl e Babilonia della III generazione." ;
+        rabbiOntology:hasTaughtInPlace  rabbiOntology:Èretz_Israèl .
+
+rabbiOntology:Achà_bar_Chaninà_Amora_3
+        a                               rabbiOntology:Amora , owl:NamedIndividual ;
+        rabbiOntology:appearsInPageRH   "20a" , "17a" ;
+        rabbiOntology:belongsToGeneration
+                3 ;
+        rabbiOntology:hasHebrewName     "אַחָא בַּר חֲנִינָא" ;
+        rabbiOntology:hasItalianName    "Achà bar Chaninà" ;
+        rabbiOntology:hasShortBio       "(rabbì o rav), amorà di Èretz Israèl della III generazione." ;
+        rabbiOntology:hasTaughtInPlace  rabbiOntology:Èretz_Israèl ;
+        rabbiOntology:hasTitle          rabbiOntology:Rabbì .
+
+rabbiOntology:Achà_bar_Hunà_Amora_4
+        a                              rabbiOntology:Amora , owl:NamedIndividual ;
+        rabbiOntology:appearsInPageRH  "18b" , "30b" ;
+        rabbiOntology:belongsToGeneration
+                4 ;
+        rabbiOntology:hasHebrewName    "אַחָא בַּר הוּנָא" ;
+        rabbiOntology:hasItalianName   "Achà bar Hunà" ;
+        rabbiOntology:hasShortBio      "(rav), amorà della IV generazione." .
+
+rabbiOntology:Achà_bar_Yaaqòv_Amora_3
+        a                               rabbiOntology:Amora , owl:NamedIndividual ;
+        rabbiOntology:appearsInPageRH   "6b" , "7a" ;
+        rabbiOntology:belongsToGeneration
+                3 , 4 ;
+        rabbiOntology:hasHebrewName     "אַחָא בַּר יַעֲקֹב" ;
+        rabbiOntology:hasItalianName    "Achà bar Yaaqòv" ;
+        rabbiOntology:hasShortBio       "(rav), amorà babilonese della III e IV generazione." ;
+        rabbiOntology:hasTaughtInPlace  rabbiOntology:Babilonia .
+
+rabbiOntology:Ahavà_figlio_di_rabbì_Zerà_Amora_4
+        a                              rabbiOntology:Amora , owl:NamedIndividual ;
+        rabbiOntology:appearsInPageRH  "29a" ;
+        rabbiOntology:belongsToGeneration
+                4 ;
+        rabbiOntology:hasHebrewName    "אַהֲבָה" ;
+        rabbiOntology:hasItalianAlternativeName
+                "Ahavà" ;
+        rabbiOntology:hasItalianName   "Ahavà figlio di rabbì Zerà" ;
+        rabbiOntology:hasShortBio      "amorà della IV generazione." .
+
+rabbiOntology:Aivù_bar_Naggaré_Amora_3
+        a                               rabbiOntology:Amora , owl:NamedIndividual ;
+        rabbiOntology:appearsInPageRH   "21a" ;
+        rabbiOntology:belongsToGeneration
+                3 , 4 ;
+        rabbiOntology:hasHebrewName     "אַיְיבוּ בַּר נַגָּרֵי" ;
+        rabbiOntology:hasItalianName    "Aivù bar Naggaré" ;
+        rabbiOntology:hasShortBio       "(rabbì), amorà di Èretz Israèl della III e IV generazione." ;
+        rabbiOntology:hasTaughtInPlace  rabbiOntology:Èretz_Israèl ;
+        rabbiOntology:hasTitle          rabbiOntology:Rabbì .
+
+rabbiOntology:Amemàr_Amora_5
+        a                               rabbiOntology:Amora , owl:NamedIndividual ;
+        rabbiOntology:appearsInPageRH   "31b" ;
+        rabbiOntology:belongsToGeneration
+                5 , 6 ;
+        rabbiOntology:hasHebrewName     "אַמֵימָר" ;
+        rabbiOntology:hasItalianName    "Amemàr" ;
+        rabbiOntology:hasShortBio       "amorà babilonese della V e VI generazione." ;
+        rabbiOntology:hasTaughtInPlace  rabbiOntology:Babilonia .
+
+rabbiOntology:Amì_Amora_3
+        a                               rabbiOntology:Amora , owl:NamedIndividual ;
+        rabbiOntology:appearsInPageRH   "20a" ;
+        rabbiOntology:belongsToGeneration
+                3 ;
+        rabbiOntology:hasHebrewName     "אַמִי" ;
+        rabbiOntology:hasItalianName    "Amì" ;
+        rabbiOntology:hasShortBio       "(rabbì o rav), amorà di Babilonia e di Èretz Israèl della III generazione." ;
+        rabbiOntology:hasTaughtInPlace  rabbiOntology:Èretz_Israèl ;
+        rabbiOntology:hasTitle          rabbiOntology:Rabbì .
+
+rabbiOntology:Anàn_bar_Ravà_Amora_na
+        a                               rabbiOntology:Amora , owl:NamedIndividual ;
+        rabbiOntology:appearsInPageRH   "31a" ;
+        rabbiOntology:belongsToGeneration
+                0 ;
+        rabbiOntology:hasHebrewName     "עָנָן בַּר רָבָא" ;
+        rabbiOntology:hasItalianName    "Anàn bar Ravà" ;
+        rabbiOntology:hasShortBio       "(rav), amorà babilonese." ;
+        rabbiOntology:hasTaughtInPlace  rabbiOntology:Babilonia ;
+        rabbiOntology:hasTitle          rabbiOntology:Rav .
+
+rabbiOntology:Rav  a  owl:NamedIndividual .
+
+rabbiOntology:Aqivà_Tanna_3
+        a                              rabbiOntology:Tanna , owl:NamedIndividual ;
+        rabbiOntology:appearsInPageRH  "16a" , "17b" , "18a" , "18b" , "21b" , "23a" , "26a" , "31a" , "14a" , "14b" , "22a" , "25a" , "25b" , "32a" , "9a" ;
+        rabbiOntology:belongsToGeneration
+                3 ;
+        rabbiOntology:hasHebrewName    "עֲקִיבָא" ;
+        rabbiOntology:hasItalianName   "Aqivà" ;
+        rabbiOntology:hasShortBio      "(rabbì), tannà della III generazione." ;
+        rabbiOntology:hasTitle         rabbiOntology:Rabbì .
+
+rabbiOntology:Ashì_Amora_4
+        a                               rabbiOntology:Amora , owl:NamedIndividual ;
+        rabbiOntology:appearsInPageRH   "20b" , "28a" , "6b" , "7a" , "31b" , "22a" , "19a" , "22b" , "26b" , "27b" , "29b" , "8a" ;
+        rabbiOntology:belongsToGeneration
+                4 ;
+        rabbiOntology:hasHebrewName     "אַשִׁי" ;
+        rabbiOntology:hasItalianName    "Ashì" ;
+        rabbiOntology:hasShortBio       "(rav), amorà babilonese della VI generazione." ;
+        rabbiOntology:hasTaughtInPlace  rabbiOntology:Babilonia ;
+        rabbiOntology:hasTitle          rabbiOntology:Rav .
+
+rabbiOntology:Asì_Amora_1
+        a                               rabbiOntology:Amora , owl:NamedIndividual ;
+        rabbiOntology:appearsInPageRH   "12b" , "13a" ;
+        rabbiOntology:belongsToGeneration
+                1 ;
+        rabbiOntology:hasHebrewName     "אַסִי" ;
+        rabbiOntology:hasItalianName    "Asì" ;
+        rabbiOntology:hasShortBio       "(rabbì o rav), amorà di Babilonia e di Èretz Israèl della III generazione, quando non associato a rabbì Amì potrebbe trattarsi di un omonimo amorà della I generazione." ;
+        rabbiOntology:hasTaughtInPlace  rabbiOntology:Èretz_Israèl ;
+        rabbiOntology:hasTitle          rabbiOntology:Rabbì .
+
+rabbiOntology:Asì_Amora_3
+        a                               rabbiOntology:Amora , owl:NamedIndividual ;
+        rabbiOntology:appearsInPageRH   "12b" , "13a" ;
+        rabbiOntology:belongsToGeneration
+                3 ;
+        rabbiOntology:hasHebrewName     "אַסִי" ;
+        rabbiOntology:hasItalianName    "Asì" ;
+        rabbiOntology:hasShortBio       "(rabbì o rav), amorà di Babilonia e di Èretz Israèl della III generazione, quando non associato a rabbì Amì potrebbe trattarsi di un omonimo amorà della I generazione." ;
+        rabbiOntology:hasTaughtInPlace  rabbiOntology:Èretz_Israèl ;
+        rabbiOntology:hasTitle          rabbiOntology:Rabbì .
+
+rabbiOntology:Avtolemos_Tanna_3
+        a                              rabbiOntology:Tanna , owl:NamedIndividual ;
+        rabbiOntology:appearsInPageRH  "15a" ;
+        rabbiOntology:belongsToGeneration
+                3 ;
+        rabbiOntology:hasHebrewName    "אַבְטוֹלְמוֹס" ;
+        rabbiOntology:hasItalianName   "Avtolemos" ;
+        rabbiOntology:hasShortBio      "tannà della III generazione." .
+
+rabbiOntology:Avìn_Amora_3
+        a                               rabbiOntology:Amora , owl:NamedIndividual ;
+        rabbiOntology:appearsInPageRH   "16b" ;
+        rabbiOntology:belongsToGeneration
+                3 , 4 ;
+        rabbiOntology:hasHebrewName     "אָבִין" ;
+        rabbiOntology:hasItalianAlternativeName
+                "Ravìn" ;
+        rabbiOntology:hasItalianName    "Avìn" ;
+        rabbiOntology:hasShortBio       "(Ravìn) (rabbì), amorà di Èretz Israèl della III e IV generazione." ;
+        rabbiOntology:hasTaughtInPlace  rabbiOntology:Èretz_Israèl ;
+        rabbiOntology:hasTitle          rabbiOntology:Rabbì .
+
+rabbiOntology:Awirà_Amora_5
+        a                              rabbiOntology:Amora , owl:NamedIndividual ;
+        rabbiOntology:appearsInPageRH  "34a" ;
+        rabbiOntology:belongsToGeneration
+                5 ;
+        rabbiOntology:hasHebrewName    "עֲוִירָא" ;
+        rabbiOntology:hasItalianName   "Awirà" ;
+        rabbiOntology:hasShortBio      "amorà della V generazione." .
+
+rabbiOntology:Ben_Azài_Tanna_3
+        a                              rabbiOntology:Tanna , owl:NamedIndividual ;
+        rabbiOntology:appearsInPageRH  "6a" ;
+        rabbiOntology:belongsToGeneration
+                3 ;
+        rabbiOntology:hasHebrewName    "בֶן עַזַּאי" ;
+        rabbiOntology:hasItalianName   "Ben Azài" ;
+        rabbiOntology:hasShortBio      "tannà della III generazione." .
+
+rabbiOntology:Chalaftà_Tanna_2
+        a                              rabbiOntology:Tanna , owl:NamedIndividual ;
+        rabbiOntology:appearsInPageRH  "27a" ;
+        rabbiOntology:belongsToGeneration
+                2 , 3 ;
+        rabbiOntology:hasHebrewName    "חֲלַפְתָּא" ;
+        rabbiOntology:hasItalianName   "Chalaftà" ;
+        rabbiOntology:hasShortBio      "(rabbì), tannà della II e III generazione." ;
+        rabbiOntology:hasTitle         rabbiOntology:Rabbì .
+
+rabbiOntology:Chamà_bar_Chaninà_Amora_3
+        a                               rabbiOntology:Amora , owl:NamedIndividual ;
+        rabbiOntology:appearsInPageRH   "29b" ;
+        rabbiOntology:belongsToGeneration
+                3 ;
+        rabbiOntology:hasHebrewName     "חָמָא בַּר חֲנִינָא" ;
+        rabbiOntology:hasItalianName    "Chamà bar Chaninà" ;
+        rabbiOntology:hasShortBio       "(rabbì), amorà di Èretz Israèl della III generazione." ;
+        rabbiOntology:hasTaughtInPlace  rabbiOntology:Èretz_Israèl ;
+        rabbiOntology:hasTitle          rabbiOntology:Rabbì .
+
+rabbiOntology:Chananyà_Amora_5
+        a                              rabbiOntology:Amora , owl:NamedIndividual ;
+        rabbiOntology:appearsInPageRH  "14b" ;
+        rabbiOntology:belongsToGeneration
+                5 ;
+        rabbiOntology:hasHebrewName    "חֲנַנְיָא" ;
+        rabbiOntology:hasItalianName   "Chananyà" ;
+        rabbiOntology:hasShortBio      "(rabbì), l’identificazione di questo Maestro non è chiara. Potrebbe trattarsi di rabbì Chananyà, amorà di Èretz Israèl della V generazione." ;
+        rabbiOntology:hasTitle         rabbiOntology:Rabbì .
+
+rabbiOntology:Chananyà_ben_Teradyòn_Tanna_3
+        a                              rabbiOntology:Tanna , owl:NamedIndividual ;
+        rabbiOntology:appearsInPageRH  "27a" ;
+        rabbiOntology:belongsToGeneration
+                3 ;
+        rabbiOntology:hasHebrewName    "חֲנַנְיָא בֶּן תְּרַדְיוֹן" ;
+        rabbiOntology:hasItalianName   "Chananyà ben Teradyòn" ;
+        rabbiOntology:hasShortBio      "(rabbì), tannà della III generazione." ;
+        rabbiOntology:hasTitle         rabbiOntology:Rabbì .
+
+rabbiOntology:Chananèl_Amora_2
+        a                              rabbiOntology:Amora , owl:NamedIndividual ;
+        rabbiOntology:appearsInPageRH  "35a" ;
+        rabbiOntology:belongsToGeneration
+                2 ;
+        rabbiOntology:hasHebrewName    "חֲנַנְאֵל" ;
+        rabbiOntology:hasItalianName   "Chananèl" ;
+        rabbiOntology:hasShortBio      "(rav), amorà della II generazione." ;
+        rabbiOntology:hasTitle         rabbiOntology:Rav .
+
+rabbiOntology:Chaninà_Amora_1
+        a                               rabbiOntology:Amora , owl:NamedIndividual ;
+        rabbiOntology:appearsInPageRH   "18b" , "13a" ;
+        rabbiOntology:belongsToGeneration
+                1 ;
+        rabbiOntology:hasHebrewName     "חֲנִינָא" ;
+        rabbiOntology:hasItalianName    "Chaninà" ;
+        rabbiOntology:hasShortBio       "(bar Chamà) (rabbì), amorà di Èretz Israèl della I generazione." ;
+        rabbiOntology:hasTaughtInPlace  rabbiOntology:Èretz_Israèl ;
+        rabbiOntology:hasTitle          rabbiOntology:Rabbì .
+
+rabbiOntology:Chaninà_Amora_5
+        a                               rabbiOntology:Amora , owl:NamedIndividual ;
+        rabbiOntology:appearsInPageRH   "14b" ;
+        rabbiOntology:belongsToGeneration
+                5 ;
+        rabbiOntology:hasHebrewName     "חֲנִינָא" ;
+        rabbiOntology:hasItalianName    "Chaninà" ;
+        rabbiOntology:hasShortBio       "(rabbì), l’identificazione di questo Maestro non è chiara. Potrebbe trattarsi di rabbì Chaninà, amorà di Èretz Israèl della V generazione." ;
+        rabbiOntology:hasTaughtInPlace  rabbiOntology:Èretz_Israèl ;
+        rabbiOntology:hasTitle          rabbiOntology:Rabbì .
+
+rabbiOntology:Chaninà_bar_Kahanà_Amora_2
+        a                              rabbiOntology:Amora , owl:NamedIndividual ;
+        rabbiOntology:appearsInPageRH  "32a" ;
+        rabbiOntology:belongsToGeneration
+                2 , 3 ;
+        rabbiOntology:hasHebrewName    "חֲנִינָא בַּר כָּהֲנָא" ;
+        rabbiOntology:hasItalianAlternativeName
+                "Chinenà" ;
+        rabbiOntology:hasItalianName   "Chaninà bar Kahanà" ;
+        rabbiOntology:hasShortBio      "(rabbì), amorà della II e III generazione." ;
+        rabbiOntology:hasTitle         rabbiOntology:Rabbì .
+
+rabbiOntology:Chaninà_ben_Yosè_il_Galileo_Tanna_4
+        a                              rabbiOntology:Tanna , owl:NamedIndividual ;
+        rabbiOntology:appearsInPageRH  "32a" ;
+        rabbiOntology:belongsToGeneration
+                4 ;
+        rabbiOntology:hasHebrewName    "חֲנִינָא בְּנוֹ שֶׁל רַבִּי יוֹסֵי הַגְּלִילִי" ;
+        rabbiOntology:hasItalianName   "Chaninà ben Yosè il Galileo" ;
+        rabbiOntology:hasShortBio      "(rabbì), tannà della IV generazione." ;
+        rabbiOntology:hasTitle         rabbiOntology:Rabbì .
+
+rabbiOntology:Chanà_bar_Biznà_Amora_3
+        a                               rabbiOntology:Amora , owl:NamedIndividual ;
+        rabbiOntology:appearsInPageRH   "18b" ;
+        rabbiOntology:belongsToGeneration
+                3 ;
+        rabbiOntology:hasHebrewName     "חָנָא בַּר בִּיזְנָא" ;
+        rabbiOntology:hasItalianName    "Chanà bar Biznà" ;
+        rabbiOntology:hasShortBio       "(rav), amorà babilonese della III generazione." ;
+        rabbiOntology:hasTaughtInPlace  rabbiOntology:Babilonia ;
+        rabbiOntology:hasTitle          rabbiOntology:Rav .
+
+rabbiOntology:Chanà_di_Tzipporì_Amora_3
+        a                               rabbiOntology:Amora , owl:NamedIndividual ;
+        rabbiOntology:appearsInPageRH   "35a" , "34b" ;
+        rabbiOntology:belongsToGeneration
+                3 ;
+        rabbiOntology:hasHebrewName     "חָנָה צִיפּוֹרָאָה" ;
+        rabbiOntology:hasItalianName    "Chanà di Tzipporì" ;
+        rabbiOntology:hasShortBio       "(rabbì), amorà di Èretz Israèl della III generazione." ;
+        rabbiOntology:hasTaughtInPlace  rabbiOntology:Èretz_Israèl ;
+        rabbiOntology:hasTitle          rabbiOntology:Rabbì .
+
+rabbiOntology:Chanàn_bar_Ravà_Amora_3
+        a                               rabbiOntology:Amora , owl:NamedIndividual ;
+        rabbiOntology:appearsInPageRH   "31a" , "22a" ;
+        rabbiOntology:belongsToGeneration
+                3 ;
+        rabbiOntology:hasHebrewName     "חָנָן בַּר רָבָא" ;
+        rabbiOntology:hasItalianName    "Chanàn bar Ravà" ;
+        rabbiOntology:hasShortBio       "(rav), amorà babilonese della III generazione." ;
+        rabbiOntology:hasTaughtInPlace  rabbiOntology:Babilonia ;
+        rabbiOntology:hasTitle          rabbiOntology:Rav .
+
+rabbiOntology:Chisdà_Amora_2
+        a                               rabbiOntology:Amora , owl:NamedIndividual ;
+        rabbiOntology:appearsInPageRH   "16a" , "26a" , "3a" , "17a" , "7a" , "32a" , "8a" , "12a" , "2a" , "4a" , "5a" , "8b" ;
+        rabbiOntology:belongsToGeneration
+                2 , 3 ;
+        rabbiOntology:hasHebrewName     "חִסְדָּא" ;
+        rabbiOntology:hasItalianName    "Chisdà" ;
+        rabbiOntology:hasShortBio       "(rav), amorà babilonese della II e III generazione." ;
+        rabbiOntology:hasTaughtInPlace  rabbiOntology:Babilonia ;
+        rabbiOntology:hasTitle          rabbiOntology:Rav .
+
+rabbiOntology:Chiyà_Amora_1
+        a                               rabbiOntology:Amora , owl:NamedIndividual ;
+        rabbiOntology:appearsInPageRH   "6b" , "25a" , "5b" ;
+        rabbiOntology:belongsToGeneration
+                1 ;
+        rabbiOntology:hasHebrewName     "חִיָּיא" ;
+        rabbiOntology:hasItalianName    "Chiyà" ;
+        rabbiOntology:hasShortBio       "(rabbì), generazione di transizione tra i tannaìm e gli amoraìm." ;
+        rabbiOntology:hasTaughtInPlace  rabbiOntology:Èretz_Israèl ;
+        rabbiOntology:hasTitle          rabbiOntology:Rabbì .
+
+rabbiOntology:Chiyà_bar_Abbà_Amora_3
+        a                               rabbiOntology:Amora , owl:NamedIndividual ;
+        rabbiOntology:appearsInPageRH   "21a" , "10a" , "9b" ;
+        rabbiOntology:belongsToGeneration
+                3 ;
+        rabbiOntology:hasHebrewName     "חִיָּיא בַּר אַבָּא" ;
+        rabbiOntology:hasItalianName    "Chiyà bar Abbà" ;
+        rabbiOntology:hasShortBio       "(rabbì), amorà di Èretz Israèl e Babilonia della III generazione." ;
+        rabbiOntology:hasTaughtInPlace  rabbiOntology:Èretz_Israèl ;
+        rabbiOntology:hasTitle          rabbiOntology:Rabbì .
+
+rabbiOntology:Chiyà_bar_Gamdà_Amora_1
+        a                               rabbiOntology:Amora , owl:NamedIndividual ;
+        rabbiOntology:appearsInPageRH   "24a" , "30a" ;
+        rabbiOntology:belongsToGeneration
+                1 ;
+        rabbiOntology:hasHebrewName     "חִיָּיא בַּר גַּמְדָּא" ;
+        rabbiOntology:hasItalianName    "Chiyà bar Gamdà" ;
+        rabbiOntology:hasShortBio       "(rabbì), amorà di Èretz Israèl della I generazione." ;
+        rabbiOntology:hasTaughtInPlace  rabbiOntology:Èretz_Israèl ;
+        rabbiOntology:hasTitle          rabbiOntology:Rabbì .
+
+rabbiOntology:Chiyà_bar_Rav_di_Difti_Amora_4
+        a                               rabbiOntology:Amora , owl:NamedIndividual ;
+        rabbiOntology:appearsInPageRH   "9a" ;
+        rabbiOntology:belongsToGeneration
+                4 , 5 ;
+        rabbiOntology:hasHebrewName     "חִיָּיא בַּר רַב מִדִּפְתִי" ;
+        rabbiOntology:hasItalianName    "Chiyà bar Rav di Difti" ;
+        rabbiOntology:hasShortBio       "amorà babilonese della IV e V generazione." ;
+        rabbiOntology:hasTaughtInPlace  rabbiOntology:Babilonia .
+
+rabbiOntology:Chiyà_figlio_di_Rabbà_bar_Nachmàni_Amora_4
+        a                              rabbiOntology:Amora , owl:NamedIndividual ;
+        rabbiOntology:appearsInPageRH  "34b" ;
+        rabbiOntology:belongsToGeneration
+                4 ;
+        rabbiOntology:hasHebrewName    "חִיָּיא בְּרֵיהּ דְּרַבָּה בַּר נַחְמָנִי" ;
+        rabbiOntology:hasItalianName   "Chiyà figlio di Rabbà bar Nachmàni" ;
+        rabbiOntology:hasShortBio      "(rabbì), amorà della IV generazione." ;
+        rabbiOntology:hasTitle         rabbiOntology:Rabbì .
+
+rabbiOntology:Dimì_Amora_3
+        a                               rabbiOntology:Amora , owl:NamedIndividual ;
+        rabbiOntology:appearsInPageRH   "23a" , "34b" ;
+        rabbiOntology:belongsToGeneration
+                3 , 4 ;
+        rabbiOntology:hasHebrewName     "דִּימִי" ;
+        rabbiOntology:hasItalianName    "Dimì" ;
+        rabbiOntology:hasShortBio       "(rav), amorà di Èretz Israèl e Babilonia della III e IV generazione." ;
+        rabbiOntology:hasTaughtInPlace  rabbiOntology:Èretz_Israèl ;
+        rabbiOntology:hasTitle          rabbiOntology:Rav .
+
+rabbiOntology:Dimì_bar_Chinnanà_Amora_3
+        a                              rabbiOntology:Amora , owl:NamedIndividual ;
+        rabbiOntology:appearsInPageRH  "34b" ;
+        rabbiOntology:belongsToGeneration
+                3 , 4 ;
+        rabbiOntology:hasHebrewName    "דִּימִי בַּר חִינָּנָא" ;
+        rabbiOntology:hasItalianName   "Dimì bar Chinnanà" ;
+        rabbiOntology:hasShortBio      "(rav), amorà della III e IV generazione." ;
+        rabbiOntology:hasTitle         rabbiOntology:Rav .
+
+rabbiOntology:Dimì_di_Nehardèa_Amora_4
+        a                               rabbiOntology:Amora , owl:NamedIndividual ;
+        rabbiOntology:appearsInPageRH   "20a" ;
+        rabbiOntology:belongsToGeneration
+                4 ;
+        rabbiOntology:hasHebrewName     "דִּימִי מִנְּהַרְדְּעָא" ;
+        rabbiOntology:hasItalianName    "Dimì di Nehardèa" ;
+        rabbiOntology:hasShortBio       "(rav), amorà babilonese della IV generazione." ;
+        rabbiOntology:hasTaughtInPlace  rabbiOntology:Babilonia ;
+        rabbiOntology:hasTitle          rabbiOntology:Rav .
+
+rabbiOntology:Dosà_ben_Horkinàs_Tanna_1
+        a                              rabbiOntology:Tanna , owl:NamedIndividual ;
+        rabbiOntology:appearsInPageRH  "25a" ;
+        rabbiOntology:belongsToGeneration
+                1 ;
+        rabbiOntology:hasHebrewName    "דּוֹסָא בֶּן הוֹרְכִּינָס" ;
+        rabbiOntology:hasItalianName   "Dosà ben Horkinàs" ;
+        rabbiOntology:hasShortBio      "(rabbì), tannà della I generazione." ;
+        rabbiOntology:hasTitle         rabbiOntology:Rabbì .
+
+rabbiOntology:Elazàr_Amora_2
+        a                              rabbiOntology:Amora , owl:NamedIndividual ;
+        rabbiOntology:appearsInPageRH  "14a" , "3a" , "6a" , "4b" ;
+        rabbiOntology:belongsToGeneration
+                2 ;
+        rabbiOntology:hasHebrewName    "אֶלְעָזָר" ;
+        rabbiOntology:hasItalianName   "Elazàr" ;
+        rabbiOntology:hasShortBio      "(ben Pedàt) (rabbì), amorà della II generazione." ;
+        rabbiOntology:hasTitle         rabbiOntology:Rabbì .
+
+rabbiOntology:Elazàr_Tanna_4
+        a                              rabbiOntology:Tanna , owl:NamedIndividual ;
+        rabbiOntology:appearsInPageRH  "17b" , "18a" , "33a" , "35a" , "31b" , "29b" , "8a" , "2a" , "10a" , "10b" , "11a" , "7b" ;
+        rabbiOntology:belongsToGeneration
+                4 ;
+        rabbiOntology:hasHebrewName    "אֶלְעָזָר" ;
+        rabbiOntology:hasItalianName   "Elazàr" ;
+        rabbiOntology:hasShortBio      "(ben Shammùa, rabbì), tannà della IV generazione." ;
+        rabbiOntology:hasTitle         rabbiOntology:Rabbì .
+
+rabbiOntology:Elazàr_figlio_di_rabbì_Shimòn_Tanna_5
+        a                              rabbiOntology:Tanna , owl:NamedIndividual ;
+        rabbiOntology:appearsInPageRH  "24a" , "4b" ;
+        rabbiOntology:belongsToGeneration
+                5 ;
+        rabbiOntology:hasHebrewName    "אֶלְעָזָר בְּרַבִּי שִׁמְעוֹן" ;
+        rabbiOntology:hasItalianName   "Elazàr figlio di rabbì Shimòn" ;
+        rabbiOntology:hasShortBio      "(rabbì), tannà della V generazione." ;
+        rabbiOntology:hasTitle         rabbiOntology:Rabbì .
+
+rabbiOntology:Elazàr_figlio_di_rabbì_Tzadòq_Tanna_1
+        a                              rabbiOntology:Tanna , owl:NamedIndividual ;
+        rabbiOntology:appearsInPageRH  "24a" ;
+        rabbiOntology:belongsToGeneration
+                1 , 2 ;
+        rabbiOntology:hasHebrewName    "אֶלְעָזָר בְּרַבִּי צָדוֹק" ;
+        rabbiOntology:hasItalianName   "Elazàr figlio di rabbì Tzadòq" ;
+        rabbiOntology:hasShortBio      "(rabbì), esistono due tannaìm con questo nome, uno della I e II generazione e uno della IV generazione." ;
+        rabbiOntology:hasTitle         rabbiOntology:Rabbì .
+
+rabbiOntology:Elazàr_figlio_di_rabbì_Tzadòq_Tanna_4
+        a                              rabbiOntology:Tanna , owl:NamedIndividual ;
+        rabbiOntology:appearsInPageRH  "24a" ;
+        rabbiOntology:belongsToGeneration
+                4 ;
+        rabbiOntology:hasHebrewName    "אֶלְעָזָר בְּרַבִּי צָדוֹק" ;
+        rabbiOntology:hasItalianName   "Elazàr figlio di rabbì Tzadòq" ;
+        rabbiOntology:hasShortBio      "(rabbì), esistono due tannaìm con questo nome, uno della I e II generazione e uno della IV generazione." ;
+        rabbiOntology:hasTitle         rabbiOntology:Rabbì .
+
+rabbiOntology:Elazàr_figlio_di_rabbì_Yosè_Tanna_5
+        a                              rabbiOntology:Tanna , owl:NamedIndividual ;
+        rabbiOntology:appearsInPageRH  "32b" ;
+        rabbiOntology:belongsToGeneration
+                5 ;
+        rabbiOntology:hasHebrewName    "אֶלְעָזָר בְּרַבִּי יוֹסֵי" ;
+        rabbiOntology:hasItalianName   "Elazàr figlio di rabbì Yosè" ;
+        rabbiOntology:hasShortBio      "(rabbì), tannà della V generazione." ;
+        rabbiOntology:hasTitle         rabbiOntology:Rabbì .
+
+rabbiOntology:Elièzer_Tanna_2
+        a                              rabbiOntology:Tanna , owl:NamedIndividual ;
+        rabbiOntology:appearsInPageRH  "18b" , "27a" , "28b" , "17a" , "31b" , "14b" , "32a" , "8a" , "12a" , "10b" , "11a" , "11b" ;
+        rabbiOntology:belongsToGeneration
+                2 ;
+        rabbiOntology:hasHebrewName    "אֱלִיעֶזֶר" ;
+        rabbiOntology:hasItalianName   "Elièzer" ;
+        rabbiOntology:hasShortBio      "(rabbì), tannà della II generazione." ;
+        rabbiOntology:hasTitle         rabbiOntology:Rabbì .
+
+rabbiOntology:Elièzer_ben_Yaaqòv_Tanna_2
+        a                              rabbiOntology:Tanna , owl:NamedIndividual ;
+        rabbiOntology:appearsInPageRH  "12b" , "4b" ;
+        rabbiOntology:belongsToGeneration
+                2 ;
+        rabbiOntology:hasHebrewName    "אֱלִיעֶזֶר בֶּן יַעֲקֹב" ;
+        rabbiOntology:hasItalianName   "Elièzer ben Yaaqòv" ;
+        rabbiOntology:hasShortBio      "(rabbì), esistono due tannaìm con questo nome, uno della II generazione e uno della IV generazione." ;
+        rabbiOntology:hasTitle         rabbiOntology:Rabbì .
+
+rabbiOntology:Elièzer_ben_Yaaqòv_Tanna_4
+        a                              rabbiOntology:Tanna , owl:NamedIndividual ;
+        rabbiOntology:appearsInPageRH  "12b" , "4b" ;
+        rabbiOntology:belongsToGeneration
+                4 ;
+        rabbiOntology:hasHebrewName    "אֱלִיעֶזֶר בֶּן יַעֲקֹב" ;
+        rabbiOntology:hasItalianName   "Elièzer ben Yaaqòv" ;
+        rabbiOntology:hasShortBio      "(rabbì), esistono due tannaìm con questo nome, uno della II generazione e uno della IV generazione." ;
+        rabbiOntology:hasTitle         rabbiOntology:Rabbì .
+
+rabbiOntology:Enà_Amora_1
+        a                               rabbiOntology:Amora , owl:NamedIndividual ;
+        rabbiOntology:appearsInPageRH   "27a" ;
+        rabbiOntology:belongsToGeneration
+                1 ;
+        rabbiOntology:hasHebrewName     "עֵינָא" ;
+        rabbiOntology:hasItalianName    "Enà" ;
+        rabbiOntology:hasShortBio       "(rav), amorà babilonese della I generazione." ;
+        rabbiOntology:hasTaughtInPlace  rabbiOntology:Babilonia ;
+        rabbiOntology:hasTitle          rabbiOntology:Rav .
+
+rabbiOntology:Gamlièl_II_Tanna_2
+        a                               rabbiOntology:Tanna , owl:NamedIndividual ;
+        rabbiOntology:appearsInPageRH   "24a" , "24b" , "33b" , "35a" , "34b" ;
+        rabbiOntology:belongsToGeneration
+                2 ;
+        rabbiOntology:hasHebrewName     "גַּמְלִיאֵל" ;
+        rabbiOntology:hasItalianName    "Gamlièl II" ;
+        rabbiOntology:hasShortBio       "(rabbàn), nome ricorrente nella dinastia di Hillèl. Il primo (haZaqèn – il Vecchio) è un tannà dell’inizio del I secolo; il secondo, di Yavnè, è un tannà della II generazione. L’identificazione si basa sul contesto e in alcuni casi è dubbia. Sono incerte ma più probabilmente attribuibili a Gamlièl II alcune occorrenze." ;
+        rabbiOntology:hasTaughtInPlace  rabbiOntology:Yavnè ;
+        rabbiOntology:hasTitle          rabbiOntology:Rabban .
+
+rabbiOntology:Yavnè  a  owl:NamedIndividual .
+
+rabbiOntology:Rabban  a  owl:NamedIndividual .
+
+rabbiOntology:Gamlièl_Tanna_1
+        a                              rabbiOntology:Tanna , owl:NamedIndividual ;
+        rabbiOntology:appearsInPageRH  "24a" , "24b" , "33b" , "35a" , "34b" ;
+        rabbiOntology:belongsToGeneration
+                1 ;
+        rabbiOntology:hasHebrewName    "גַּמְלִיאֵל" ;
+        rabbiOntology:hasItalianAlternativeName
+                "Gamlièl haZaqèn" ;
+        rabbiOntology:hasItalianName   "Gamlièl" ;
+        rabbiOntology:hasShortBio      "(rabbàn), nome ricorrente nella dinastia di Hillèl. Il primo (haZaqèn – il Vecchio) è un tannà dell’inizio del I secolo; il secondo, di Yavnè, è un tannà della II generazione. L’identificazione si basa sul contesto e in alcuni casi è dubbia. Sono incerte ma più probabilmente attribuibili a Gamlièl II alcune occorrenze." ;
+        rabbiOntology:hasTitle         rabbiOntology:Rabban .
+
+rabbiOntology:Hillèl_MemberOfZug_na
+        a                              rabbiOntology:MemberOfZug , owl:NamedIndividual ;
+        rabbiOntology:appearsInPageRH  "17a" , "14b" , "8a" , "2a" ;
+        rabbiOntology:belongsToGeneration
+                0 ;
+        rabbiOntology:hasItalianName   "Hillèl" ;
+        rabbiOntology:hasShortBio      "insieme a Shammài nell’ultima serie di coppie (zugòt)." .
+
+rabbiOntology:Hunà_Amora_5
+        a                               rabbiOntology:Amora , owl:NamedIndividual ;
+        rabbiOntology:appearsInPageRH   "17a" ;
+        rabbiOntology:belongsToGeneration
+                5 ;
+        rabbiOntology:hasHebrewName     "הוּנָא" ;
+        rabbiOntology:hasItalianAlternativeName
+                "Hunà figlio di rav Yehoshùa" ;
+        rabbiOntology:hasItalianName    "Hunà" ;
+        rabbiOntology:hasShortBio       "vedi Hunà figlio di rav Yehoshùa." ;
+        rabbiOntology:hasTaughtInPlace  rabbiOntology:Babilonia ;
+        rabbiOntology:hasTitle          rabbiOntology:Rav .
+
+rabbiOntology:Hunà_bar_Avìn_Amora_4
+        a                               rabbiOntology:Amora , owl:NamedIndividual ;
+        rabbiOntology:appearsInPageRH   "21a" ;
+        rabbiOntology:belongsToGeneration
+                4 ;
+        rabbiOntology:hasHebrewName     "רַב הוּנָא בַּר אָבִין" ;
+        rabbiOntology:hasItalianName    "Hunà bar Avìn" ;
+        rabbiOntology:hasShortBio       "(rav), amorà di Èretz Israèl della IV generazione." ;
+        rabbiOntology:hasTaughtInPlace  rabbiOntology:Èretz_Israèl ;
+        rabbiOntology:hasTitle          rabbiOntology:Rav .
+
+rabbiOntology:Hunà_figlio_di_rav_Idì_Amora_5
+        a                              rabbiOntology:Amora , owl:NamedIndividual ;
+        rabbiOntology:appearsInPageRH  "24b" ;
+        rabbiOntology:belongsToGeneration
+                5 ;
+        rabbiOntology:hasHebrewName    "רַב הוּנָא בְּרֵיהּ דְּרַב אִידִי" ;
+        rabbiOntology:hasItalianName   "Hunà figlio di rav Idì" ;
+        rabbiOntology:hasShortBio      "(rav), amorà della V generazione." ;
+        rabbiOntology:hasTitle         rabbiOntology:Rav .
+
+rabbiOntology:Hunà_figlio_di_rav_Yehoshùa_Amora_5
+        a                               rabbiOntology:Amora , owl:NamedIndividual ;
+        rabbiOntology:appearsInPageRH   "17a" ;
+        rabbiOntology:belongsToGeneration
+                5 ;
+        rabbiOntology:hasHebrewName     "בְּרֵיהּ דְּרַב יְהוֹשֻׁעַ" ;
+        rabbiOntology:hasItalianName    "Hunà figlio di rav Yehoshùa" ;
+        rabbiOntology:hasShortBio       "(rav), amorà babilonese della V generazione." ;
+        rabbiOntology:hasTaughtInPlace  rabbiOntology:Babilonia ;
+        rabbiOntology:hasTitle          rabbiOntology:Rav .
+
+rabbiOntology:Ilfà_Amora_2
+        a                               rabbiOntology:Amora , owl:NamedIndividual ;
+        rabbiOntology:appearsInPageRH   "17b" ;
+        rabbiOntology:belongsToGeneration
+                2 ;
+        rabbiOntology:hasHebrewName     "אִילְפָא" ;
+        rabbiOntology:hasItalianName    "Ilfà" ;
+        rabbiOntology:hasShortBio       "amorà di Èretz Israèl della II generazione." ;
+        rabbiOntology:hasTaughtInPlace  rabbiOntology:Èretz_Israèl .
+
+rabbiOntology:Ilfài_Amora_2
+        a                               rabbiOntology:Amora , owl:NamedIndividual ;
+        rabbiOntology:appearsInPageRH   "17b" ;
+        rabbiOntology:belongsToGeneration
+                2 ;
+        rabbiOntology:hasHebrewName     "אִילְפַי" ;
+        rabbiOntology:hasItalianName    "Ilfài" ;
+        rabbiOntology:hasShortBio       "amorà di Èretz Israèl della II generazione." ;
+        rabbiOntology:hasTaughtInPlace  rabbiOntology:Èretz_Israèl .
+
+rabbiOntology:Kruspedài_Amora_3
+        a                               rabbiOntology:Amora , owl:NamedIndividual ;
+        rabbiOntology:appearsInPageRH   "16b" ;
+        rabbiOntology:belongsToGeneration
+                3 ;
+        rabbiOntology:hasHebrewName     "כְּרוּסְפְּדַאי" ;
+        rabbiOntology:hasItalianName    "Kruspedài" ;
+        rabbiOntology:hasShortBio       "(rabbì), amorà di Èretz Israèl della III generazione." ;
+        rabbiOntology:hasTaughtInPlace  rabbiOntology:Èretz_Israèl ;
+        rabbiOntology:hasTitle          rabbiOntology:Rabbì .
+
+rabbiOntology:Levì_Amora_3
+        a                               rabbiOntology:Amora , owl:NamedIndividual ;
+        rabbiOntology:appearsInPageRH   "22a" , "26b" ;
+        rabbiOntology:belongsToGeneration
+                3 ;
+        rabbiOntology:hasHebrewName     "לֵוִי" ;
+        rabbiOntology:hasItalianName    "Levì" ;
+        rabbiOntology:hasShortBio       "(rabbì), amorà di Èretz Israèl della III generazione." ;
+        rabbiOntology:hasTaughtInPlace  rabbiOntology:Èretz_Israèl ;
+        rabbiOntology:hasTitle          rabbiOntology:Rabbì .
+
+rabbiOntology:Levì_bar_Lachmà_Amora_3
+        a                               rabbiOntology:Amora , owl:NamedIndividual ;
+        rabbiOntology:appearsInPageRH   "29b" ;
+        rabbiOntology:belongsToGeneration
+                3 ;
+        rabbiOntology:hasHebrewName     "לֵוִי בַּר לַחְמָא" ;
+        rabbiOntology:hasItalianName    "Levì bar Lachmà" ;
+        rabbiOntology:hasShortBio       "(rabbì), amorà di Èretz Israèl della III generazione." ;
+        rabbiOntology:hasTaughtInPlace  rabbiOntology:Èretz_Israèl ;
+        rabbiOntology:hasTitle          rabbiOntology:Rabbì .
+
+rabbiOntology:Mar_Uqvà_Amora_1
+        a                               rabbiOntology:Amora , owl:NamedIndividual ;
+        rabbiOntology:appearsInPageRH   "20a" , "22a" , "19b" ;
+        rabbiOntology:belongsToGeneration
+                1 ;
+        rabbiOntology:hasHebrewName     "מָר עוּקְבָא" ;
+        rabbiOntology:hasItalianName    "Mar Uqvà" ;
+        rabbiOntology:hasShortBio       "amorà di Èretz Israèl della I generazione." ;
+        rabbiOntology:hasTaughtInPlace  rabbiOntology:Èretz_Israèl .
+
+rabbiOntology:Mar_Zutrà_Amora_6
+        a                               rabbiOntology:Amora , owl:NamedIndividual ;
+        rabbiOntology:appearsInPageRH   "11a" ;
+        rabbiOntology:belongsToGeneration
+                6 ;
+        rabbiOntology:hasHebrewName     "מָר זוּטְרָא" ;
+        rabbiOntology:hasItalianName    "Mar Zutrà" ;
+        rabbiOntology:hasShortBio       "amorà babilonese della VI generazione." ;
+        rabbiOntology:hasTaughtInPlace  rabbiOntology:Babilonia .
+
+rabbiOntology:Meìr_Tanna_4
+        a                              rabbiOntology:Tanna , owl:NamedIndividual ;
+        rabbiOntology:appearsInPageRH  "16a" , "18a" , "6b" , "35a" , "19a" , "8a" , "5b" , "10a" , "4b" , "10b" , "7b" , "19b" ;
+        rabbiOntology:belongsToGeneration
+                4 ;
+        rabbiOntology:hasHebrewName    "מֵאִיר" ;
+        rabbiOntology:hasItalianName   "Meìr" ;
+        rabbiOntology:hasShortBio      "(rabbì), tannà della IV generazione." ;
+        rabbiOntology:hasTitle         rabbiOntology:Rabbì .
+
+rabbiOntology:Nachmàn_Amora_2
+        a                               rabbiOntology:Amora , owl:NamedIndividual ;
+        rabbiOntology:appearsInPageRH   "15a" , "18a" , "20a" , "20b" , "32b" , "29a" , "21a" , "10b" , "19b" ;
+        rabbiOntology:belongsToGeneration
+                2 , 3 ;
+        rabbiOntology:hasHebrewName     "נַחְמָן" ;
+        rabbiOntology:hasItalianName    "Nachmàn" ;
+        rabbiOntology:hasShortBio       "(rav), amorà babilonese della II e III generazione." ;
+        rabbiOntology:hasTaughtInPlace  rabbiOntology:Babilonia ;
+        rabbiOntology:hasTitle          rabbiOntology:Rav .
+
+rabbiOntology:Nachmàn_bar_Chisdà_Amora_4
+        a                              rabbiOntology:Amora , owl:NamedIndividual ;
+        rabbiOntology:appearsInPageRH  "19b" ;
+        rabbiOntology:belongsToGeneration
+                4 ;
+        rabbiOntology:hasHebrewName    "נַחְמָן בַּר חִסְדָּא" ;
+        rabbiOntology:hasItalianName   "Nachmàn bar Chisdà" ;
+        rabbiOntology:hasShortBio      "(rav), amorà della IV generazione." ;
+        rabbiOntology:hasTitle         rabbiOntology:Rav .
+
+rabbiOntology:Nachmàn_bar_Yitzchàq_Amora_4
+        a                               rabbiOntology:Amora , owl:NamedIndividual ;
+        rabbiOntology:appearsInPageRH   "18a" , "23b" , "24a" , "35a" , "7a" , "31b" , "8a" , "16b" , "30a" , "7b" ;
+        rabbiOntology:belongsToGeneration
+                4 ;
+        rabbiOntology:hasHebrewName     "נַחְמָן בַּר יִצְחָק" ;
+        rabbiOntology:hasItalianName    "Nachmàn bar Yitzchàq" ;
+        rabbiOntology:hasShortBio       "(rav), amorà babilonese della IV generazione." ;
+        rabbiOntology:hasTaughtInPlace  rabbiOntology:Babilonia ;
+        rabbiOntology:hasTitle          rabbiOntology:Rav .
+
+rabbiOntology:Natàn_Tanna_4
+        a                              rabbiOntology:Tanna , owl:NamedIndividual ;
+        rabbiOntology:appearsInPageRH  "16a" , "27b" ;
+        rabbiOntology:belongsToGeneration
+                4 ;
+        rabbiOntology:hasHebrewName    "רַבִּי נָתָן" ;
+        rabbiOntology:hasItalianName   "Natàn" ;
+        rabbiOntology:hasShortBio      "(rabbì), tannà della IV generazione." ;
+        rabbiOntology:hasTitle         rabbiOntology:Rabbì .
+
+rabbiOntology:Nechemyà_Tanna_4
+        a                              rabbiOntology:Tanna , owl:NamedIndividual ;
+        rabbiOntology:appearsInPageRH  "31a" , "15b" ;
+        rabbiOntology:belongsToGeneration
+                4 ;
+        rabbiOntology:hasHebrewName    "נְחֶמְיָה" ;
+        rabbiOntology:hasItalianName   "Nechemyà" ;
+        rabbiOntology:hasShortBio      "(rabbì), tannà della IV generazione." ;
+        rabbiOntology:hasTitle         rabbiOntology:Rabbì .
+
+rabbiOntology:Nehorài_Tanna_4
+        a                              rabbiOntology:Tanna , owl:NamedIndividual ;
+        rabbiOntology:appearsInPageRH  "22b" ;
+        rabbiOntology:belongsToGeneration
+                4 ;
+        rabbiOntology:hasHebrewName    "נְהוֹרַאי" ;
+        rabbiOntology:hasItalianName   "Nehorài" ;
+        rabbiOntology:hasShortBio      "(rabbì), tannà della IV generazione." ;
+        rabbiOntology:hasTitle         rabbiOntology:Rabbì .
+
+rabbiOntology:Oshaayà_Amora_1
+        a                               rabbiOntology:Amora , owl:NamedIndividual ;
+        rabbiOntology:appearsInPageRH   "14a" , "4b" ;
+        rabbiOntology:belongsToGeneration
+                1 ;
+        rabbiOntology:hasHebrewName     "אוֹשַׁעֲיָא" ;
+        rabbiOntology:hasItalianName    "Oshaayà" ;
+        rabbiOntology:hasShortBio       "(rabbì o rav), Oshaayà il Grande, amorà di Èretz Israèl della I generazione." ;
+        rabbiOntology:hasTaughtInPlace  rabbiOntology:Èretz_Israèl ;
+        rabbiOntology:hasTitle          rabbiOntology:Rabbì .
+
+rabbiOntology:Palaimo_Tanna_5
+        a                              rabbiOntology:Tanna , owl:NamedIndividual ;
+        rabbiOntology:appearsInPageRH  "24a" ;
+        rabbiOntology:belongsToGeneration
+                5 ;
+        rabbiOntology:hasHebrewName    "פַּלַיְמוֹ" ;
+        rabbiOntology:hasItalianName   "Palaimo" ;
+        rabbiOntology:hasShortBio      "tannà della V generazione." .
+
+rabbiOntology:Pappyàs_Tanna_2
+        a                              rabbiOntology:Tanna , owl:NamedIndividual ;
+        rabbiOntology:appearsInPageRH  "6b" , "7a" , "6a" ;
+        rabbiOntology:belongsToGeneration
+                2 ;
+        rabbiOntology:hasHebrewName    "פַּפְּיָיס" ;
+        rabbiOntology:hasItalianName   "Pappyàs" ;
+        rabbiOntology:hasShortBio      "(rabbì), tannà della II generazione." ;
+        rabbiOntology:hasTitle         rabbiOntology:Rabbì .
+
+rabbiOntology:Pappà_Amora_5
+        a                               rabbiOntology:Amora , owl:NamedIndividual ;
+        rabbiOntology:appearsInPageRH   "17b" , "18b" , "24a" , "3b" , "17a" , "31b" , "22b" , "27b" , "8a" , "7b" , "19b" , "2b" ;
+        rabbiOntology:belongsToGeneration
+                5 ;
+        rabbiOntology:hasHebrewName     "פַּפָּא" ;
+        rabbiOntology:hasItalianName    "Pappà" ;
+        rabbiOntology:hasShortBio       "(rav), amorà babilonese della V generazione." ;
+        rabbiOntology:hasTaughtInPlace  rabbiOntology:Babilonia ;
+        rabbiOntology:hasTitle          rabbiOntology:Rav .
+
+rabbiOntology:Pappà_bar_Shemuèl_Amora_4
+        a                               rabbiOntology:Amora , owl:NamedIndividual ;
+        rabbiOntology:appearsInPageRH   "27a" , "34b" ;
+        rabbiOntology:belongsToGeneration
+                4 ;
+        rabbiOntology:hasHebrewName     "פַּפָּא בַּר שְׁמוּאֵל" ;
+        rabbiOntology:hasItalianName    "Pappà bar Shemuèl" ;
+        rabbiOntology:hasShortBio       "(rav), amorà babilonese della IV generazione." ;
+        rabbiOntology:hasTaughtInPlace  rabbiOntology:Babilonia ;
+        rabbiOntology:hasTitle          rabbiOntology:Rav .
+
+rabbiOntology:Pappì_Amora_3
+        a                               rabbiOntology:Amora , owl:NamedIndividual ;
+        rabbiOntology:appearsInPageRH   "29b" ;
+        rabbiOntology:belongsToGeneration
+                3 ;
+        rabbiOntology:hasHebrewName     "פַּפִּי" ;
+        rabbiOntology:hasItalianName    "Pappì" ;
+        rabbiOntology:hasShortBio       "(rav), amorà di Èretz Israèl della III generazione." ;
+        rabbiOntology:hasTaughtInPlace  rabbiOntology:Èretz_Israèl ;
+        rabbiOntology:hasTitle          rabbiOntology:Rav .
+
+rabbiOntology:Qetinà_Amora_2
+        a                               rabbiOntology:Amora , owl:NamedIndividual ;
+        rabbiOntology:appearsInPageRH   "31a" ;
+        rabbiOntology:belongsToGeneration
+                2 ;
+        rabbiOntology:hasHebrewName     "קְטִינָא" ;
+        rabbiOntology:hasItalianName    "Qetinà" ;
+        rabbiOntology:hasShortBio       "(rav), amorà babilonese della II generazione." ;
+        rabbiOntology:hasTaughtInPlace  rabbiOntology:Babilonia ;
+        rabbiOntology:hasTitle          rabbiOntology:Rav .
+
+rabbiOntology:Rabbà_bar_Avùh_Amora_2
+        a                               rabbiOntology:Amora , owl:NamedIndividual ;
+        rabbiOntology:appearsInPageRH   "18a" , "10b" ;
+        rabbiOntology:belongsToGeneration
+                2 ;
+        rabbiOntology:hasHebrewName     "רַבָּה בַּר אֲבוּהּ" ;
+        rabbiOntology:hasItalianName    "Rabbà bar Avùh" ;
+        rabbiOntology:hasShortBio       "amorà babilonese della II generazione." ;
+        rabbiOntology:hasTaughtInPlace  rabbiOntology:Babilonia .
+
+rabbiOntology:Rabbà_bar_Bar_Chanà_Amora_3
+        a                               rabbiOntology:Amora , owl:NamedIndividual ;
+        rabbiOntology:appearsInPageRH   "18a" , "34b" , "26b" ;
+        rabbiOntology:belongsToGeneration
+                3 ;
+        rabbiOntology:hasHebrewName     "רַבָּה בַּר בַּר חָנָה" ;
+        rabbiOntology:hasItalianName    "Rabbà bar Bar Chanà" ;
+        rabbiOntology:hasShortBio       "amorà di Èretz Israèl della III generazione." ;
+        rabbiOntology:hasTaughtInPlace  rabbiOntology:Èretz_Israèl .
+
+rabbiOntology:Rabbà_bar_Limà_Amora_2
+        a                              rabbiOntology:Amora , owl:NamedIndividual ;
+        rabbiOntology:appearsInPageRH  "4a" ;
+        rabbiOntology:belongsToGeneration
+                2 ;
+        rabbiOntology:hasHebrewName    "רַבָּה בַּר לִימָא" ;
+        rabbiOntology:hasItalianName   "Rabbà bar Limà" ;
+        rabbiOntology:hasShortBio      "amorà della II generazione." .
+
+rabbiOntology:Rabbà_bar_Shemuèl_Amora_2
+        a                               rabbiOntology:Amora , owl:NamedIndividual ;
+        rabbiOntology:appearsInPageRH   "20a" , "5a" ;
+        rabbiOntology:belongsToGeneration
+                2 ;
+        rabbiOntology:hasHebrewName     "רַבָּה בַּר שְׁמוּאֵל" ;
+        rabbiOntology:hasItalianName    "Rabbà bar Shemuèl" ;
+        rabbiOntology:hasShortBio       "amorà babilonese della II generazione." ;
+        rabbiOntology:hasTaughtInPlace  rabbiOntology:Babilonia .
+
+rabbiOntology:Rabbà_bar_Ullà_Amora_4
+        a                              rabbiOntology:Amora , owl:NamedIndividual ;
+        rabbiOntology:appearsInPageRH  "7a" , "31b" ;
+        rabbiOntology:belongsToGeneration
+                4 ;
+        rabbiOntology:hasHebrewName    "רַבָּה בַּר עוּלָּא" ;
+        rabbiOntology:hasItalianName   "Rabbà bar Ullà" ;
+        rabbiOntology:hasShortBio      "amorà della IV generazione." .
+
+rabbiOntology:Rabbà_bar_rav_Hunà_Amora_2
+        a                               rabbiOntology:Amora , owl:NamedIndividual ;
+        rabbiOntology:appearsInPageRH   "15a" , "23a" , "14b" ;
+        rabbiOntology:belongsToGeneration
+                2 , 3 ;
+        rabbiOntology:hasHebrewName     "רַבָּה בַּר רַב הוּנָא" ;
+        rabbiOntology:hasItalianName    "Rabbà bar rav Hunà" ;
+        rabbiOntology:hasShortBio       "(chiamato anche Ravà) amorà babilonese della II e III generazione." ;
+        rabbiOntology:hasTaughtInPlace  rabbiOntology:Babilonia .
+
+rabbiOntology:Rabbì_Tanna_5
+        a                              rabbiOntology:Tanna , owl:NamedIndividual ;
+        rabbiOntology:appearsInPageRH  "24a" , "26a" , "6b" , "31b" , "25a" , "32a" , "30a" , "7b" , "19b" ;
+        rabbiOntology:belongsToGeneration
+                5 ;
+        rabbiOntology:hasHebrewName    "רַבִּי" ;
+        rabbiOntology:hasItalianName   "Rabbì" ;
+        rabbiOntology:hasShortBio      "(rabbì Yehudà haNasì), tannà della V generazione." ;
+        rabbiOntology:hasTitle         rabbiOntology:Rabbì .
+
+rabbiOntology:Rav_Amora_1
+        a                               rabbiOntology:Amora , owl:NamedIndividual ;
+        rabbiOntology:appearsInPageRH   "18a" , "18b" , "21b" , "23a" , "24b" , "26a" , "31a" , "35a" , "34b" , "17a" , "22a" , "19a" , "4a" , "19b" ;
+        rabbiOntology:belongsToGeneration
+                1 ;
+        rabbiOntology:hasHebrewName     "רַב" ;
+        rabbiOntology:hasItalianName    "Rav" ;
+        rabbiOntology:hasShortBio       "amorà babilonese della I generazione." ;
+        rabbiOntology:hasTaughtInPlace  rabbiOntology:Babilonia .
+
+rabbiOntology:Ravinà_Amora_6
+        a                               rabbiOntology:Amora , owl:NamedIndividual ;
+        rabbiOntology:appearsInPageRH   "34a" , "3a" , "7a" , "14b" ;
+        rabbiOntology:belongsToGeneration
+                6 ;
+        rabbiOntology:hasHebrewName     "רָבִינָא" ;
+        rabbiOntology:hasItalianName    "Ravinà" ;
+        rabbiOntology:hasShortBio       "amorà babilonese della VI generazione." ;
+        rabbiOntology:hasTaughtInPlace  rabbiOntology:Babilonia .
+
+rabbiOntology:Ravà_Amora_4
+        a                               rabbiOntology:Amora , owl:NamedIndividual ;
+        rabbiOntology:appearsInPageRH   "15a" , "16a" , "18a" , "20a" , "20b" , "27a" , "28a" , "28b" , "33b" , "6b" , "34b" , "17a" , "29a" , "21a" , "29b" , "8a" , "6a" , "5a" , "5b" , "10a" , "30a" , "7b" ;
+        rabbiOntology:belongsToGeneration
+                4 ;
+        rabbiOntology:hasHebrewName     "רָבָא" ;
+        rabbiOntology:hasItalianName    "Ravà" ;
+        rabbiOntology:hasShortBio       "amorà babilonese della IV generazione." ;
+        rabbiOntology:hasTaughtInPlace  rabbiOntology:Babilonia .
+
+rabbiOntology:Ravà_di_Barnìsh_Amora_6
+        a                              rabbiOntology:Amora , owl:NamedIndividual ;
+        rabbiOntology:appearsInPageRH  "26b" ;
+        rabbiOntology:belongsToGeneration
+                6 ;
+        rabbiOntology:hasHebrewName    "רָבָא מִבַּרְנִישׁ" ;
+        rabbiOntology:hasItalianName   "Ravà di Barnìsh" ;
+        rabbiOntology:hasShortBio      "amorà della VI generazione." .
+
+rabbiOntology:Resh_Laqìsh_Amora_2
+        a                               rabbiOntology:Amora , owl:NamedIndividual ;
+        rabbiOntology:appearsInPageRH   "18a" , "20b" , "15b" , "34b" , "3a" ;
+        rabbiOntology:belongsToGeneration
+                2 ;
+        rabbiOntology:hasHebrewName     "רֵישׁ לָקִישׁ" ;
+        rabbiOntology:hasItalianName    "Resh Laqìsh" ;
+        rabbiOntology:hasShortBio       "amorà di Èretz Israèl della II generazione." ;
+        rabbiOntology:hasTaughtInPlace  rabbiOntology:Èretz_Israèl .
+
+rabbiOntology:Shammài_MemberOfZug_na
+        a                              rabbiOntology:MemberOfZug , owl:NamedIndividual ;
+        rabbiOntology:appearsInPageRH  "14b" , "8a" , "16b" , "2a" ;
+        rabbiOntology:belongsToGeneration
+                0 ;
+        rabbiOntology:hasHebrewName    "שַׁמַּאי" ;
+        rabbiOntology:hasItalianName   "Shammài" ;
+        rabbiOntology:hasShortBio      "insieme a Hillèl nell’ultima serie di coppie (<span style=\"font-style: italic;\" class=\"italic\">zugòt)</span>." .
+
+rabbiOntology:Shelà_Amora_4
+        a                              rabbiOntology:Amora , owl:NamedIndividual ;
+        rabbiOntology:appearsInPageRH  "23a" ;
+        rabbiOntology:belongsToGeneration
+                4 ;
+        rabbiOntology:hasHebrewName    "שֵׁילָא" ;
+        rabbiOntology:hasItalianName   "Shelà" ;
+        rabbiOntology:hasShortBio      "(rabbì), amorà della IV generazione." ;
+        rabbiOntology:hasTitle         rabbiOntology:Rabbì .
+
+rabbiOntology:Shemayà_MemberOfZug_na
+        a                              rabbiOntology:MemberOfZug , owl:NamedIndividual ;
+        rabbiOntology:appearsInPageRH  "6b" ;
+        rabbiOntology:belongsToGeneration
+                0 ;
+        rabbiOntology:hasHebrewName    "שְׁמַעְיָה" ;
+        rabbiOntology:hasItalianName   "Shemayà" ;
+        rabbiOntology:hasShortBio      "(rav), della quarta coppia dei primi Maestri." ;
+        rabbiOntology:hasTitle         rabbiOntology:Rav .
+
+rabbiOntology:Shemuèl_Amora_1
+        a                               rabbiOntology:Amora , owl:NamedIndividual ;
+        rabbiOntology:appearsInPageRH   "13b" , "18a" , "20b" , "21b" , "24a" , "24b" , "28a" , "14a" , "7a" , "22a" , "32a" , "27b" , "29b" ;
+        rabbiOntology:belongsToGeneration
+                1 ;
+        rabbiOntology:hasHebrewName     "שְׁמוּאֵל" ;
+        rabbiOntology:hasItalianName    "Shemuèl" ;
+        rabbiOntology:hasShortBio       "amorà babilonese della I generazione." ;
+        rabbiOntology:hasTaughtInPlace  rabbiOntology:Babilonia .
+
+rabbiOntology:Shemuèl_bar_Amì_Amora_3
+        a                               rabbiOntology:Amora , owl:NamedIndividual ;
+        rabbiOntology:appearsInPageRH   "18a" ;
+        rabbiOntology:belongsToGeneration
+                3 ;
+        rabbiOntology:hasHebrewName     "שְׁמוּאֵל בַּר אַמִי" ;
+        rabbiOntology:hasItalianName    "Shemuèl bar Amì" ;
+        rabbiOntology:hasShortBio       "(rav), amorà di Èretz Israèl della III generazione." ;
+        rabbiOntology:hasTaughtInPlace  rabbiOntology:Èretz_Israèl ;
+        rabbiOntology:hasTitle          rabbiOntology:Rav .
+
+rabbiOntology:Shemuèl_bar_Inyà_Amora_5
+        a                               rabbiOntology:Amora , owl:NamedIndividual ;
+        rabbiOntology:appearsInPageRH   "18a" ;
+        rabbiOntology:belongsToGeneration
+                5 ;
+        rabbiOntology:hasHebrewName     "שְׁמוּאֵל בַּר אִינְיָא" ;
+        rabbiOntology:hasItalianName    "Shemuèl bar Inyà" ;
+        rabbiOntology:hasShortBio       "(rav), amorà di Èretz Israèl della V generazione." ;
+        rabbiOntology:hasTaughtInPlace  rabbiOntology:Èretz_Israèl ;
+        rabbiOntology:hasTitle          rabbiOntology:Rav .
+
+rabbiOntology:Shemuèl_bar_Nachmàni_Amora_3
+        a                               rabbiOntology:Amora , owl:NamedIndividual ;
+        rabbiOntology:appearsInPageRH   "18a" , "34a" ;
+        rabbiOntology:belongsToGeneration
+                3 ;
+        rabbiOntology:hasHebrewName     "שְׁמוּאֵל בַּר נַחְמָנִי" ;
+        rabbiOntology:hasItalianName    "Shemuèl bar Nachmàni" ;
+        rabbiOntology:hasShortBio       "(rabbì), amorà di Èretz Israèl della III generazione." ;
+        rabbiOntology:hasTaughtInPlace  rabbiOntology:Èretz_Israèl ;
+        rabbiOntology:hasTitle          rabbiOntology:Rabbì .
+
+rabbiOntology:Shemuèl_bar_Yitzchàq_Amora_3
+        a                               rabbiOntology:Amora , owl:NamedIndividual ;
+        rabbiOntology:appearsInPageRH   "27a" ;
+        rabbiOntology:belongsToGeneration
+                3 ;
+        rabbiOntology:hasHebrewName     "שְׁמוּאֵל בַּר יִצְחָק" ;
+        rabbiOntology:hasItalianName    "Shemuèl bar Yitzchàq" ;
+        rabbiOntology:hasShortBio       "(rav), amorà di Èretz Israèl della III generazione." ;
+        rabbiOntology:hasTaughtInPlace  rabbiOntology:Èretz_Israèl ;
+        rabbiOntology:hasTitle          rabbiOntology:Rav .
+
+rabbiOntology:Sheshà_figlio_di_rav_Idì_Amora_4
+        a                              rabbiOntology:Amora , owl:NamedIndividual ;
+        rabbiOntology:appearsInPageRH  "27a" , "7b" ;
+        rabbiOntology:belongsToGeneration
+                4 , 5 ;
+        rabbiOntology:hasHebrewName    "שֵׁישָׁא בְּרֵיהּ דְּרַב אִידִי" ;
+        rabbiOntology:hasItalianName   "Sheshà figlio di rav Idì" ;
+        rabbiOntology:hasShortBio      "(rav), amorà della IV e V generazione." ;
+        rabbiOntology:hasTitle         rabbiOntology:Rav .
+
+rabbiOntology:Shimòn_Shezurì_Tanna_4
+        a                              rabbiOntology:Tanna , owl:NamedIndividual ;
+        rabbiOntology:appearsInPageRH  "13b" , "14a" ;
+        rabbiOntology:belongsToGeneration
+                4 ;
+        rabbiOntology:hasHebrewName    "שִׁמְעוֹן שְׁזוּרִי" ;
+        rabbiOntology:hasItalianName   "Shimòn Shezurì" ;
+        rabbiOntology:hasShortBio      "(rabbì), tannà della IV generazione." ;
+        rabbiOntology:hasTitle         rabbiOntology:Rabbì .
+
+rabbiOntology:Shimòn_Tanna_4
+        a                              rabbiOntology:Tanna , owl:NamedIndividual ;
+        rabbiOntology:appearsInPageRH  "15a" , "18b" , "33a" , "22a" , "8a" , "2a" , "4a" , "4b" , "10b" , "7b" ;
+        rabbiOntology:belongsToGeneration
+                4 ;
+        rabbiOntology:hasHebrewName    "שִׁמְעוֹן" ;
+        rabbiOntology:hasItalianName   "Shimòn" ;
+        rabbiOntology:hasShortBio      "(ben Yochài, rabbì), tannà della IV generazione." ;
+        rabbiOntology:hasTitle         rabbiOntology:Rabbì .
+
+rabbiOntology:Shimòn_ben_Elazàr_Tanna_5
+        a                              rabbiOntology:Tanna , owl:NamedIndividual ;
+        rabbiOntology:appearsInPageRH  "23b" , "31b" , "14b" , "5a" ;
+        rabbiOntology:belongsToGeneration
+                5 ;
+        rabbiOntology:hasHebrewName    "שִׁמְעוֹן בֶּן אֶלְעָזָר" ;
+        rabbiOntology:hasItalianName   "Shimòn ben Elazàr" ;
+        rabbiOntology:hasShortBio      "(rabbì), tannà della V generazione." ;
+        rabbiOntology:hasTitle         rabbiOntology:Rabbì .
+
+rabbiOntology:Shimòn_ben_Yehudà_Tanna_5
+        a                              rabbiOntology:Tanna , owl:NamedIndividual ;
+        rabbiOntology:appearsInPageRH  "15a" ;
+        rabbiOntology:belongsToGeneration
+                5 ;
+        rabbiOntology:hasHebrewName    "שִׁמְעוֹן בֶּן יְהוּדָה" ;
+        rabbiOntology:hasItalianName   "Shimòn ben Yehudà" ;
+        rabbiOntology:hasShortBio      "(rabbì), tannà della V generazione." ;
+        rabbiOntology:hasTitle         rabbiOntology:Rabbì .
+
+rabbiOntology:Shimòn_il_Pio_Amora_1
+        a                              rabbiOntology:Amora , owl:NamedIndividual ;
+        rabbiOntology:appearsInPageRH  "18b" , "35a" ;
+        rabbiOntology:belongsToGeneration
+                1 , 2 ;
+        rabbiOntology:hasHebrewName    "שִׁמְעוֹן חֲסִידָא" ;
+        rabbiOntology:hasItalianName   "Shimòn il Pio" ;
+        rabbiOntology:hasShortBio      "(rabbì), amorà di Èretz Israèl della I o II generazione." ;
+        rabbiOntology:hasTitle         rabbiOntology:Rabbì .
+
+rabbiOntology:Shèmen_bar_Abbà_Amora_3
+        a                               rabbiOntology:Amora , owl:NamedIndividual ;
+        rabbiOntology:appearsInPageRH   "28b" ;
+        rabbiOntology:belongsToGeneration
+                3 ;
+        rabbiOntology:hasHebrewName     "שֶׁמֶן בַּר אַבָּא" ;
+        rabbiOntology:hasItalianName    "Shèmen bar Abbà" ;
+        rabbiOntology:hasShortBio       "(rav), amorà di Èretz Israèl della III generazione." ;
+        rabbiOntology:hasTaughtInPlace  rabbiOntology:Èretz_Israèl ;
+        rabbiOntology:hasTitle          rabbiOntology:Rav .
+
+rabbiOntology:Shèshet_Amora_2
+        a                               rabbiOntology:Amora , owl:NamedIndividual ;
+        rabbiOntology:appearsInPageRH   "5a" , "5b" , "30a" ;
+        rabbiOntology:belongsToGeneration
+                2 , 3 ;
+        rabbiOntology:hasHebrewName     "שֵׁשֶׁת" ;
+        rabbiOntology:hasItalianName    "Shèshet" ;
+        rabbiOntology:hasShortBio       "(rav), amorà babilonese della II e III generazione." ;
+        rabbiOntology:hasTaughtInPlace  rabbiOntology:Babilonia ;
+        rabbiOntology:hasTitle          rabbiOntology:Rav .
+
+rabbiOntology:Tarfòn_Tanna_2
+        a                              rabbiOntology:Tanna , owl:NamedIndividual ;
+        rabbiOntology:appearsInPageRH  "26a" ;
+        rabbiOntology:belongsToGeneration
+                2 , 3 ;
+        rabbiOntology:hasHebrewName    "טַרְפוֹן" ;
+        rabbiOntology:hasItalianName   "Tarfòn" ;
+        rabbiOntology:hasShortBio      "(rabbì), tannà della II e III generazione." ;
+        rabbiOntology:hasTitle         rabbiOntology:Rabbì .
+
+rabbiOntology:Tavì_figlio_di_Marì_Tavì_Amora_3
+        a                              rabbiOntology:Amora , owl:NamedIndividual ;
+        rabbiOntology:appearsInPageRH  "22a" ;
+        rabbiOntology:belongsToGeneration
+                3 ;
+        rabbiOntology:hasHebrewName    "טָבִי בְּרֵיהּ דְּמָרִי טָבִי" ;
+        rabbiOntology:hasItalianName   "Tavì figlio di Marì Tavì" ;
+        rabbiOntology:hasShortBio      "amorà della III generazione." .
+
+rabbiOntology:Tobia_il_Medico_Tanna_1
+        a                              rabbiOntology:Tanna , owl:NamedIndividual ;
+        rabbiOntology:appearsInPageRH  "22a" ;
+        rabbiOntology:belongsToGeneration
+                1 ;
+        rabbiOntology:hasHebrewName    "טוֹבִיָּה הָרוֹפֵא" ;
+        rabbiOntology:hasItalianName   "Tobia il Medico" ;
+        rabbiOntology:hasShortBio      "tannà della I generazione." .
+
+rabbiOntology:Tovì_bar_Mattanà_Amora_4
+        a                               rabbiOntology:Amora , owl:NamedIndividual ;
+        rabbiOntology:appearsInPageRH   "19a" ;
+        rabbiOntology:belongsToGeneration
+                4 ;
+        rabbiOntology:hasHebrewName     "טוֹבִי בַּר מַתָּנָה" ;
+        rabbiOntology:hasItalianName    "Tovì bar Mattanà" ;
+        rabbiOntology:hasShortBio       "(rav), amorà babilonese della IV generazione." ;
+        rabbiOntology:hasTaughtInPlace  rabbiOntology:Babilonia ;
+        rabbiOntology:hasTitle          rabbiOntology:Rav .
+
+rabbiOntology:Ullà_Amora_2
+        a                               rabbiOntology:Amora , owl:NamedIndividual ;
+        rabbiOntology:appearsInPageRH   "20a" , "26a" , "31b" , "22b" ;
+        rabbiOntology:belongsToGeneration
+                2 , 3 ;
+        rabbiOntology:hasHebrewName     "עוּלָּא" ;
+        rabbiOntology:hasItalianName    "Ullà" ;
+        rabbiOntology:hasShortBio       "amorà di Èretz Israèl e Babilonia della II e III generazione." ;
+        rabbiOntology:hasTaughtInPlace  rabbiOntology:Babilonia .
+
+rabbiOntology:Yaaqòv_bar_Idì_Amora_2
+        a                               rabbiOntology:Amora , owl:NamedIndividual ;
+        rabbiOntology:appearsInPageRH   "35a" ;
+        rabbiOntology:belongsToGeneration
+                2 , 3 ;
+        rabbiOntology:hasHebrewName     "יַעֲקֹב בַּר אִידִי" ;
+        rabbiOntology:hasItalianName    "Yaaqòv bar Idì" ;
+        rabbiOntology:hasShortBio       "(rabbì), amorà di Èretz Israèl della II e III generazione." ;
+        rabbiOntology:hasTaughtInPlace  rabbiOntology:Èretz_Israèl ;
+        rabbiOntology:hasTitle          rabbiOntology:Rabbì .
+
+rabbiOntology:Yannài_Amora_1
+        a                               rabbiOntology:Amora , owl:NamedIndividual ;
+        rabbiOntology:appearsInPageRH   "15a" , "10a" ;
+        rabbiOntology:belongsToGeneration
+                1 ;
+        rabbiOntology:hasHebrewName     "יַנַּאי" ;
+        rabbiOntology:hasItalianName    "Yannài" ;
+        rabbiOntology:hasShortBio       "(rabbì), amorà di Èretz Israèl della I generazione." ;
+        rabbiOntology:hasTaughtInPlace  rabbiOntology:Èretz_Israèl ;
+        rabbiOntology:hasTitle          rabbiOntology:Rabbì .
+
+rabbiOntology:Yehoshùa_Tanna_2
+        a                              rabbiOntology:Tanna , owl:NamedIndividual ;
+        rabbiOntology:appearsInPageRH  "18b" , "28b" , "7a" , "25a" , "25b" , "6a" , "12a" , "11a" , "11b" ;
+        rabbiOntology:belongsToGeneration
+                2 ;
+        rabbiOntology:hasHebrewName    "יְהוֹשֻׁעַ" ;
+        rabbiOntology:hasItalianName   "Yehoshùa" ;
+        rabbiOntology:hasShortBio      "(ben Chananyà) (rabbì), tannà della II generazione." ;
+        rabbiOntology:hasTitle         rabbiOntology:Rabbì .
+
+rabbiOntology:Yehoshùa_ben_Levì_Amora_1
+        a                               rabbiOntology:Amora , owl:NamedIndividual ;
+        rabbiOntology:appearsInPageRH   "18b" , "20a" , "26a" , "27a" , "35a" , "12b" , "11a" , "19b" ;
+        rabbiOntology:belongsToGeneration
+                1 ;
+        rabbiOntology:hasHebrewName     "יְהוֹשֻׁעַ בֶּן לֵוִי" ;
+        rabbiOntology:hasItalianName    "Yehoshùa ben Levì" ;
+        rabbiOntology:hasShortBio       "(rabbì), amorà di Èretz Israèl della I generazione." ;
+        rabbiOntology:hasTaughtInPlace  rabbiOntology:Èretz_Israèl ;
+        rabbiOntology:hasTitle          rabbiOntology:Rabbì .
+
+rabbiOntology:Yehoshùa_ben_Qorchà_Tanna_4
+        a                              rabbiOntology:Tanna , owl:NamedIndividual ;
+        rabbiOntology:appearsInPageRH  "31b" ;
+        rabbiOntology:belongsToGeneration
+                4 ;
+        rabbiOntology:hasHebrewName    "יְהוֹשֻׁעַ בֶּן קָרְחָה" ;
+        rabbiOntology:hasItalianName   "Yehoshùa ben Qorchà" ;
+        rabbiOntology:hasShortBio      "(rabbì), tannà della IV generazione." ;
+        rabbiOntology:hasTitle         rabbiOntology:Rabbì .
+
+rabbiOntology:Yehudà_Amora_2
+        a                               rabbiOntology:Amora , owl:NamedIndividual ;
+        rabbiOntology:appearsInPageRH   "17b" , "18a" , "23a" , "24a" , "24b" , "26a" , "28a" , "35a" , "17a" , "7a" , "11a" ;
+        rabbiOntology:belongsToGeneration
+                2 ;
+        rabbiOntology:hasHebrewName     "יְהוּדָה" ;
+        rabbiOntology:hasItalianName    "Yehudà" ;
+        rabbiOntology:hasShortBio       "(rav), amorà babilonese della II generazione." ;
+        rabbiOntology:hasTaughtInPlace  rabbiOntology:Babilonia ;
+        rabbiOntology:hasTitle          rabbiOntology:Rav .
+
+rabbiOntology:Yehudà_Nesià_Amora_1
+        a                               rabbiOntology:Amora , owl:NamedIndividual ;
+        rabbiOntology:appearsInPageRH   "20a" ;
+        rabbiOntology:belongsToGeneration
+                1 ;
+        rabbiOntology:hasHebrewName     "יְהוּדָה נְשִׂיאָה" ;
+        rabbiOntology:hasItalianName    "Yehudà Nesià" ;
+        rabbiOntology:hasShortBio       "(rabbì), amorà di Èretz Israèl della I generazione." ;
+        rabbiOntology:hasTaughtInPlace  rabbiOntology:Èretz_Israèl ;
+        rabbiOntology:hasTitle          rabbiOntology:Rabbì .
+
+rabbiOntology:Yehudà_Tanna_4
+        a                              rabbiOntology:Tanna , owl:NamedIndividual ;
+        rabbiOntology:appearsInPageRH  "16a" , "31a" , "33a" , "32b" , "30b" , "22a" , "9a" , "26b" , "12b" , "9b" , "10b" ;
+        rabbiOntology:belongsToGeneration
+                4 ;
+        rabbiOntology:hasHebrewName    "יְהוּדָה" ;
+        rabbiOntology:hasItalianName   "Yehudà" ;
+        rabbiOntology:hasShortBio      "(bar Elài) (rabbì), tannà della IV generazione." ;
+        rabbiOntology:hasTitle         rabbiOntology:Rabbì .
+
+rabbiOntology:Yehudà_bar_Idì_Amora_2
+        a                              rabbiOntology:Amora , owl:NamedIndividual ;
+        rabbiOntology:appearsInPageRH  "31a" ;
+        rabbiOntology:belongsToGeneration
+                2 , 3 ;
+        rabbiOntology:hasHebrewName    "רַב יְהוּדָה בַּר אִידִי" ;
+        rabbiOntology:hasItalianName   "Yehudà bar Idì" ;
+        rabbiOntology:hasShortBio      "(rav), amorà della II e III generazione." ;
+        rabbiOntology:hasTitle         rabbiOntology:Rav .
+
+rabbiOntology:Yehudà_ben_Shammùa_Tanna_4
+        a                              rabbiOntology:Tanna , owl:NamedIndividual ;
+        rabbiOntology:appearsInPageRH  "19a" , "19b" ;
+        rabbiOntology:belongsToGeneration
+                4 ;
+        rabbiOntology:hasHebrewName    "יְהוּדָה בֶּן שַׁמּוּעַ" ;
+        rabbiOntology:hasItalianName   "Yehudà ben Shammùa" ;
+        rabbiOntology:hasShortBio      "tannà della IV generazione." .
+
+rabbiOntology:Yirmeyà_Amora_3
+        a                               rabbiOntology:Amora , owl:NamedIndividual ;
+        rabbiOntology:appearsInPageRH   "13a" ;
+        rabbiOntology:belongsToGeneration
+                3 , 4 ;
+        rabbiOntology:hasHebrewName     "יִרְמְיָה" ;
+        rabbiOntology:hasItalianName    "Yirmeyà" ;
+        rabbiOntology:hasShortBio       "(rabbì), amorà di Èretz Israèl della III e IV generazione." ;
+        rabbiOntology:hasTaughtInPlace  rabbiOntology:Èretz_Israèl ;
+        rabbiOntology:hasTitle          rabbiOntology:Rabbì .
+
+rabbiOntology:Yishmaèl_Tanna_3
+        a                              rabbiOntology:Tanna , owl:NamedIndividual ;
+        rabbiOntology:appearsInPageRH  "16a" , "17a" , "9a" ;
+        rabbiOntology:belongsToGeneration
+                3 ;
+        rabbiOntology:hasHebrewName    "יִשְׁמָעֵאל" ;
+        rabbiOntology:hasItalianName   "Yishmaèl" ;
+        rabbiOntology:hasShortBio      "(ben Elishà) (rabbì), tannà della III generazione." ;
+        rabbiOntology:hasTitle         rabbiOntology:Rabbì .
+
+rabbiOntology:Yishmaèl_figlio_di_Yochanàn_ben_Beroqà_Tanna_4
+        a                              rabbiOntology:Tanna , owl:NamedIndividual ;
+        rabbiOntology:appearsInPageRH  "34a" , "8a" , "8b" , "7b" ;
+        rabbiOntology:belongsToGeneration
+                4 ;
+        rabbiOntology:hasHebrewName    "יִשְׁמָעֵאל בְּנוֹ שֶׁל רַבִּי יוֹחָנָן בֶּן בְּרוֹקָא" ;
+        rabbiOntology:hasItalianName   "Yishmaèl figlio di Yochanàn ben Beroqà" ;
+        rabbiOntology:hasShortBio      "(rabbì), tannà della IV generazione." ;
+        rabbiOntology:hasTitle         rabbiOntology:Rabbì .
+
+rabbiOntology:Yitzchàq_Amora_2
+        a                               rabbiOntology:Amora , owl:NamedIndividual ;
+        rabbiOntology:appearsInPageRH   "16a" , "18a" , "3b" , "16b" , "4a" ;
+        rabbiOntology:belongsToGeneration
+                2 , 3 ;
+        rabbiOntology:hasHebrewName     "יִצְחָק" ;
+        rabbiOntology:hasItalianName    "Yitzchàq" ;
+        rabbiOntology:hasShortBio       "(il Fabbro) (rabbì), amorà di Èretz Israèl e Babilonia della II e III generazione." ;
+        rabbiOntology:hasTaughtInPlace  rabbiOntology:Èretz_Israèl ;
+        rabbiOntology:hasTitle          rabbiOntology:Rabbì .
+
+rabbiOntology:Yitzchàq_bar_Avìn_Amora_3
+        a                              rabbiOntology:Amora , owl:NamedIndividual ;
+        rabbiOntology:appearsInPageRH  "17a" ;
+        rabbiOntology:belongsToGeneration
+                3 ;
+        rabbiOntology:hasHebrewName    "צְחָק בַּר אָבִין" ;
+        rabbiOntology:hasItalianName   "Yitzchàq bar Avìn" ;
+        rabbiOntology:hasShortBio      "(rabbì), amorà della III generazione." ;
+        rabbiOntology:hasTitle         rabbiOntology:Rabbì .
+
+rabbiOntology:Yitzchàq_bar_Nachmàni_Amora_2
+        a                               rabbiOntology:Amora , owl:NamedIndividual ;
+        rabbiOntology:appearsInPageRH   "13b" ;
+        rabbiOntology:belongsToGeneration
+                2 , 3 ;
+        rabbiOntology:hasHebrewName     "יִצְחָק בַּר נַחְמָנִי" ;
+        rabbiOntology:hasItalianName    "Yitzchàq bar Nachmàni" ;
+        rabbiOntology:hasShortBio       "(rabbì), amorà di Èretz Israèl della II e III generazione." ;
+        rabbiOntology:hasTaughtInPlace  rabbiOntology:Èretz_Israèl ;
+        rabbiOntology:hasTitle          rabbiOntology:Rabbì .
+
+rabbiOntology:Yitzchàq_bar_Yosèf_Amora_3
+        a                               rabbiOntology:Amora , owl:NamedIndividual ;
+        rabbiOntology:appearsInPageRH   "30a" ;
+        rabbiOntology:belongsToGeneration
+                3 , 4 ;
+        rabbiOntology:hasHebrewName     "יִצְחָק בַּר יוֹסֵף" ;
+        rabbiOntology:hasItalianName    "Yitzchàq bar Yosèf" ;
+        rabbiOntology:hasShortBio       "(rav), amorà di Èretz Israèl e Babilonia della III e IV generazione." ;
+        rabbiOntology:hasTaughtInPlace  rabbiOntology:Èretz_Israèl ;
+        rabbiOntology:hasTitle          rabbiOntology:Rav .
+
+rabbiOntology:Yochanàn_Amora_2
+        a                               rabbiOntology:Amora , owl:NamedIndividual ;
+        rabbiOntology:appearsInPageRH   "15a" , "17b" , "18a" , "18b" , "20a" , "20b" , "23a" , "23b" , "31a" , "35a" , "15b" , "32b" , "34a" , "34b" , "3a" , "21a" , "31b" , "25a" , "32a" , "27b" , "8a" , "12b" , "16b" , "6a" , "10a" , "9b" , "10b" , "2b" ;
+        rabbiOntology:belongsToGeneration
+                2 , 3 ;
+        rabbiOntology:hasHebrewName     "יוֹחָנָן" ;
+        rabbiOntology:hasItalianName    "Yochanàn" ;
+        rabbiOntology:hasShortBio       "(bar Nappachà) (rabbì), amorà di Èretz Israèl della II e III generazione." ;
+        rabbiOntology:hasTaughtInPlace  rabbiOntology:Èretz_Israèl ;
+        rabbiOntology:hasTitle          rabbiOntology:Rabbì .
+
+rabbiOntology:Yochanàn_ben_Beroqà_Tanna_3
+        a                              rabbiOntology:Tanna , owl:NamedIndividual ;
+        rabbiOntology:appearsInPageRH  "32a" ;
+        rabbiOntology:belongsToGeneration
+                3 ;
+        rabbiOntology:hasHebrewName    "יוֹחָנָן בֶּן בְּרוֹקָא" ;
+        rabbiOntology:hasItalianName   "Yochanàn ben Beroqà" ;
+        rabbiOntology:hasShortBio      "(rabbì), tannà della III generazione." ;
+        rabbiOntology:hasTitle         rabbiOntology:Rabbì .
+
+rabbiOntology:Yochanàn_ben_Nurì_Tanna_3
+        a                              rabbiOntology:Tanna , owl:NamedIndividual ;
+        rabbiOntology:appearsInPageRH  "25a" , "32a" ;
+        rabbiOntology:belongsToGeneration
+                3 ;
+        rabbiOntology:hasHebrewName    "יוֹחָנָן בֶּן נוּרִי" ;
+        rabbiOntology:hasItalianName   "Yochanàn ben Nurì" ;
+        rabbiOntology:hasShortBio      "(rabbì), tannà della III generazione." ;
+        rabbiOntology:hasTitle         rabbiOntology:Rabbì .
+
+rabbiOntology:Yochanàn_ben_Zakkài_Tanna_1
+        a                              rabbiOntology:Tanna , owl:NamedIndividual ;
+        rabbiOntology:appearsInPageRH  "18a" , "21b" , "30b" , "31b" , "32a" , "29b" , "30a" ;
+        rabbiOntology:belongsToGeneration
+                1 ;
+        rabbiOntology:hasHebrewName    "יוֹחָנָן בֶּן זַכַּאי" ;
+        rabbiOntology:hasItalianName   "Yochanàn ben Zakkài" ;
+        rabbiOntology:hasShortBio      "(rabbàn), tannà della I generazione." ;
+        rabbiOntology:hasTitle         rabbiOntology:Rabban .
+
+rabbiOntology:Yonatàn_Tanna_4
+        a                              rabbiOntology:Tanna , owl:NamedIndividual ;
+        rabbiOntology:appearsInPageRH  "18a" , "34a" ;
+        rabbiOntology:belongsToGeneration
+                4 ;
+        rabbiOntology:hasHebrewName    "יוֹנָתָן" ;
+        rabbiOntology:hasItalianName   "Yonatàn" ;
+        rabbiOntology:hasShortBio      "(rabbì), tannà della IV generazione." ;
+        rabbiOntology:hasTitle         rabbiOntology:Rabbì .
+
+rabbiOntology:Yonatàn_ben_Yosèf_Tanna_4
+        a                              rabbiOntology:Tanna , owl:NamedIndividual ;
+        rabbiOntology:appearsInPageRH  "13a" ;
+        rabbiOntology:belongsToGeneration
+                4 ;
+        rabbiOntology:hasHebrewName    "יוֹנָתָן בֶּן יוֹסֵף" ;
+        rabbiOntology:hasItalianName   "Yonatàn ben Yosèf" ;
+        rabbiOntology:hasShortBio      "(rabbì), tannà della IV generazione." ;
+        rabbiOntology:hasTitle         rabbiOntology:Rabbì .
+
+rabbiOntology:Yonà_Amora_4
+        a                               rabbiOntology:Amora , owl:NamedIndividual ;
+        rabbiOntology:appearsInPageRH   "4b" ;
+        rabbiOntology:belongsToGeneration
+                4 ;
+        rabbiOntology:hasHebrewName     "יוֹנָה" ;
+        rabbiOntology:hasItalianName    "Yonà" ;
+        rabbiOntology:hasShortBio       "(rabbì), amorà di Èretz Israèl della IV generazione." ;
+        rabbiOntology:hasTaughtInPlace  rabbiOntology:Èretz_Israèl ;
+        rabbiOntology:hasTitle          rabbiOntology:Rabbì .
+
+rabbiOntology:Yoshiyà_Amora_3
+        a                               rabbiOntology:Amora , owl:NamedIndividual ;
+        rabbiOntology:appearsInPageRH   "7a" ;
+        rabbiOntology:belongsToGeneration
+                3 ;
+        rabbiOntology:hasHebrewName     "יֹאשִׁיָּה" ;
+        rabbiOntology:hasItalianName    "Yoshiyà" ;
+        rabbiOntology:hasShortBio       "(rabbì), amorà di Èretz Israèl della III generazione." ;
+        rabbiOntology:hasTaughtInPlace  rabbiOntology:Èretz_Israèl ;
+        rabbiOntology:hasTitle          rabbiOntology:Rabbì .
+
+rabbiOntology:Yosè_Tanna_3
+        a                              rabbiOntology:Tanna , owl:NamedIndividual ;
+        rabbiOntology:appearsInPageRH  "15a" , "16a" , "21b" , "26a" , "31a" , "33a" , "32b" , "29a" , "14b" , "22a" , "32a" , "9b" , "10b" , "19b" ;
+        rabbiOntology:belongsToGeneration
+                3 ;
+        rabbiOntology:hasHebrewName    "יוֹסֵי" ;
+        rabbiOntology:hasItalianName   "Yosè" ;
+        rabbiOntology:hasShortBio      "(ben Chalaftà) (rabbì), tannà della III generazione." ;
+        rabbiOntology:hasTitle         rabbiOntology:Rabbì .
+
+rabbiOntology:Yosè_bar_Chaninà_Amora_2
+        a                               rabbiOntology:Amora , owl:NamedIndividual ;
+        rabbiOntology:appearsInPageRH   "17a" ;
+        rabbiOntology:belongsToGeneration
+                2 ;
+        rabbiOntology:hasHebrewName     "יוֹסֵי בַּר חֲנִינָא" ;
+        rabbiOntology:hasItalianName    "Yosè bar Chaninà" ;
+        rabbiOntology:hasShortBio       "(rabbì), amorà di Èretz Israèl della II generazione." ;
+        rabbiOntology:hasTaughtInPlace  rabbiOntology:Èretz_Israèl ;
+        rabbiOntology:hasTitle          rabbiOntology:Rabbì .
+
+rabbiOntology:Yosè_bar_Yehudà_Tanna_5
+        a                              rabbiOntology:Tanna , owl:NamedIndividual ;
+        rabbiOntology:appearsInPageRH  "24b" , "14b" , "32a" ;
+        rabbiOntology:belongsToGeneration
+                5 ;
+        rabbiOntology:hasHebrewName    "יוֹסֵי בַּר יְהוּדָה" ;
+        rabbiOntology:hasItalianName   "Yosè bar Yehudà" ;
+        rabbiOntology:hasShortBio      "(rabbì), tannà della V generazione." ;
+        rabbiOntology:hasTitle         rabbiOntology:Rabbì .
+
+rabbiOntology:Yosè_ben_Kefàr_Tanna_5
+        a                              rabbiOntology:Tanna , owl:NamedIndividual ;
+        rabbiOntology:appearsInPageRH  "13b" ;
+        rabbiOntology:belongsToGeneration
+                5 ;
+        rabbiOntology:hasHebrewName    "יוֹסֵי בֶּן כֵּיפָר" ;
+        rabbiOntology:hasItalianName   "Yosè ben Kefàr" ;
+        rabbiOntology:hasShortBio      "(rabbì), tannà della V generazione." ;
+        rabbiOntology:hasTitle         rabbiOntology:Rabbì .
+
+rabbiOntology:Yosè_haKohèn_Tanna_2
+        a                              rabbiOntology:Tanna , owl:NamedIndividual ;
+        rabbiOntology:appearsInPageRH  "17b" , "15b" ;
+        rabbiOntology:belongsToGeneration
+                2 ;
+        rabbiOntology:hasHebrewName    "יוֹסֵי הַכֹּהֵן" ;
+        rabbiOntology:hasItalianName   "Yosè haKohèn" ;
+        rabbiOntology:hasShortBio      "(Yosè il Sacerdote, rabbì), tannà della II generazione." ;
+        rabbiOntology:hasTitle         rabbiOntology:Rabbì .
+
+rabbiOntology:Yosè_il_Galileo_Tanna_3
+        a                              rabbiOntology:Tanna , owl:NamedIndividual ;
+        rabbiOntology:appearsInPageRH  "14a" , "12b" ;
+        rabbiOntology:belongsToGeneration
+                3 ;
+        rabbiOntology:hasHebrewName    "יוֹסֵי הַגְּלִילִי" ;
+        rabbiOntology:hasItalianName   "Yosè il Galileo" ;
+        rabbiOntology:hasShortBio      "(rabbì), tannà della III generazione." ;
+        rabbiOntology:hasTitle         rabbiOntology:Rabbì .
+
+rabbiOntology:Yosèf_Amora_3
+        a                               rabbiOntology:Amora , owl:NamedIndividual ;
+        rabbiOntology:appearsInPageRH   "16a" , "18b" , "23b" , "3b" , "32a" , "4a" , "7b" ;
+        rabbiOntology:belongsToGeneration
+                3 ;
+        rabbiOntology:hasHebrewName     "יוֹסֵף" ;
+        rabbiOntology:hasItalianName    "Yosèf" ;
+        rabbiOntology:hasShortBio       "(rav), amorà babilonese della III generazione." ;
+        rabbiOntology:hasTaughtInPlace  rabbiOntology:Babilonia ;
+        rabbiOntology:hasTitle          rabbiOntology:Rav .
+
+rabbiOntology:Zerà_Amora_4
+        a                               rabbiOntology:Amora , owl:NamedIndividual ;
+        rabbiOntology:appearsInPageRH   "13b" , "20b" , "28b" , "33b" , "6b" , "30b" , "29a" , "25b" , "22b" , "8a" , "12b" , "13a" , "30a" ;
+        rabbiOntology:belongsToGeneration
+                4 , 5 ;
+        rabbiOntology:hasHebrewName     "זֵירָא" ;
+        rabbiOntology:hasItalianName    "Zerà" ;
+        rabbiOntology:hasShortBio       "(rabbì), amorà babilonese della IV e V generazione." ;
+        rabbiOntology:hasTaughtInPlace  rabbiOntology:Babilonia ;
+        rabbiOntology:hasTitle          rabbiOntology:Rabbì .
+
+rabbiOntology:Zevìd_Amora_5
+        a                               rabbiOntology:Amora , owl:NamedIndividual ;
+        rabbiOntology:appearsInPageRH   "6b" , "6a" ;
+        rabbiOntology:belongsToGeneration
+                5 ;
+        rabbiOntology:hasHebrewName     "זְבִיד" ;
+        rabbiOntology:hasItalianName    "Zevìd" ;
+        rabbiOntology:hasShortBio       "(rav), amorà babilonese della V generazione." ;
+        rabbiOntology:hasTaughtInPlace  rabbiOntology:Babilonia ;
+        rabbiOntology:hasTitle          rabbiOntology:Rav .
+
+rabbiOntology:yavnè  a  rabbiOntology:Place , owl:NamedIndividual .
